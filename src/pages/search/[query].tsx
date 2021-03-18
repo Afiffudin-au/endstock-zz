@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/hooks'
-import { CloseIcon, SearchIcon } from '@chakra-ui/icons'
+import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons'
 import {
   Drawer,
   DrawerOverlay,
@@ -8,15 +8,23 @@ import {
   DrawerBody,
   Button,
   Box,
-  Grid,
   SimpleGrid,
   IconButton,
   Text,
   Flex,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Checkbox,
+  Radio,
+  RadioGroup,
+  Stack,
+  Input,
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { token } from '../../api-token/token'
 import Card, { CardOptions } from '../../components/Card/Card'
 import Search from '../../components/Search/Search'
@@ -31,15 +39,34 @@ interface DataItems {
     }
   }
 }
-function SearcResult({ data }: { data: any }) {
+const sortData = ['newest', 'popular', 'relevance', 'random']
+const imageType = ['photo', 'illustration', 'vector']
+function SearcResult({ data, pageProp }: { data: any; pageProp: any }) {
+  const [typeSort, setTypeSort] = useState<string>('popular')
+  const [typeImage, setTypeImage] = useState<string>('photo')
+  const [perPage, setPerPage] = useState<number>(20)
+  const [page, setPage] = useState<number>(parseInt(pageProp))
+  const [checkBox, setCheckBox] = useState<boolean>(true)
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [page, setPage] = useState<any>(1)
   const router = useRouter()
   const handleNext = (page: any) => {
     setPage(page)
     const path = router.pathname
     const query = router.query
-    query.pageNumber = page
+    query.page = page
+    router.push({
+      pathname: path,
+      query,
+    })
+  }
+  const handleApplyFilter = () => {
+    const path = router.pathname
+    const query: any = router.query
+    query.sort = typeSort
+    query.typeImage = typeImage
+    query.safeSearch = checkBox
+    query.page = page
+    query.perPage = perPage
     router.push({
       pathname: path,
       query,
@@ -67,7 +94,68 @@ function SearcResult({ data }: { data: any }) {
             </DrawerHeader>
             <DrawerHeader borderBottomWidth='1px'>Basic Drawer</DrawerHeader>
             <DrawerBody>
-              <p>type here</p>
+              <Flex mb='2' alignItems='center'>
+                <Menu size='sm'>
+                  <MenuButton
+                    size='sm'
+                    as={Button}
+                    rightIcon={<ChevronDownIcon />}>
+                    {typeSort}
+                  </MenuButton>
+                  <MenuList>
+                    {sortData.map((item) => (
+                      <MenuItem onClick={() => setTypeSort(item)} key={item}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                </Menu>
+                <Checkbox
+                  onChange={() => setCheckBox(!checkBox)}
+                  ml='2'
+                  isChecked={checkBox}>
+                  Safe Search
+                </Checkbox>
+              </Flex>
+              <Box mb='2'>
+                <Menu size='sm'>
+                  <MenuButton
+                    size='sm'
+                    as={Button}
+                    rightIcon={<ChevronDownIcon />}>
+                    {typeImage}
+                  </MenuButton>
+                  <MenuList>
+                    {imageType.map((item) => (
+                      <MenuItem onClick={() => setTypeImage(item)} key={item}>
+                        {item}
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                </Menu>
+              </Box>
+              <Flex alignItems='center' mb='2'>
+                <Input
+                  marginRight='10px'
+                  type='number'
+                  variant='flushed'
+                  placeholder='Per Page'
+                  min={1}
+                  max={500}
+                  onChange={(e) => setPerPage(parseInt(e.target.value))}
+                />
+                <Input
+                  type='number'
+                  variant='flushed'
+                  placeholder='Page'
+                  min={1}
+                  max={100}
+                  onChange={(e) => setPage(parseInt(e.target.value))}
+                />
+              </Flex>
+              <Button onClick={handleApplyFilter} colorScheme='blue' size='sm'>
+                Apply Filter
+              </Button>
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>
@@ -132,14 +220,25 @@ const MemoizedChildComponent = React.memo(ChildComponent)
 export default SearcResult
 export const getServerSideProps = async (context: any) => {
   const query = context.params.query
-  const page = context.query.pageNumber || 1
+  const pageProp = context.query.page || 1
+  const sort = context.query.sort || 'popular'
+  const typeImage = context.query.typeImage
+  const safeSearch = context.query.safeSearch
+  const perPage = context.query.perPage
   const data = await axios({
     method: 'get',
     headers: {
       Authorization: `Basic ${token}`,
     },
-    url: `https://api.shutterstock.com/v2/images/search?page=${page}`,
-    params: { query: query },
+    url: `https://api.shutterstock.com/v2/images/search`,
+    params: {
+      query: query,
+      page: pageProp,
+      sort: sort,
+      safe: safeSearch,
+      per_page: perPage,
+      image_type: typeImage,
+    },
   })
     .then((res) => {
       return res.data
@@ -151,6 +250,7 @@ export const getServerSideProps = async (context: any) => {
   return {
     props: {
       data,
+      pageProp,
     },
   }
 }
