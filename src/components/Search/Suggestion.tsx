@@ -56,7 +56,12 @@ function Suggestion({ title }: { title: string }) {
     if (userText === '') {
       return
     }
-    router.push(`/search/${value}`)
+    if (title === 'Images') {
+      router.push(`/search-images/${value}`)
+    }
+    if (title === 'Videos') {
+      router.push(`/search-videos/${value}`)
+    }
   }
   return (
     <>

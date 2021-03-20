@@ -13,7 +13,7 @@ import { MdPhotoCamera } from 'react-icons/md/index'
 import { BsMusicNoteBeamed, BsFillCameraVideoFill } from 'react-icons/bs/index'
 import Suggestion from './Suggestion'
 function Search() {
-  const [title, setTitle] = useState<string>('Photo')
+  const [title, setTitle] = useState<string>('Images')
   return (
     <Box
       borderWidth='1px'
@@ -35,12 +35,12 @@ function Search() {
             <MenuList>
               <MenuItem
                 icon={<MdPhotoCamera />}
-                onClick={() => setTitle('Photo')}>
+                onClick={() => setTitle('Images')}>
                 Photo
               </MenuItem>
               <MenuItem
                 icon={<BsFillCameraVideoFill />}
-                onClick={() => setTitle('Video')}>
+                onClick={() => setTitle('Videos')}>
                 Video
               </MenuItem>
               <MenuItem
