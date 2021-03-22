@@ -8,7 +8,9 @@ const languages: any = []
 const getSuggestions = (value: string) => {
   const inputValue = value.trim().toLowerCase()
   const inputLength = inputValue.length
-
+  if (languages.length > 20) {
+    languages.length = 20
+  }
   return inputLength === 0
     ? []
     : languages.filter(
