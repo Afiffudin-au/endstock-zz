@@ -17,9 +17,10 @@ function Card({ description, image, id }: Required<CardOptions>) {
   return (
     <Box
       maxW='sm'
-      borderColor='gray.500'
-      borderWidth='1px'
+      // borderColor='gray.500'
+      // borderWidth='1px'
       borderRadius='lg'
+      boxShadow='rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;'
       overflow='hidden'>
       {!imageLoad && (
         <SkeletonTheme color='#cfd8dc' highlightColor='#eceff1'>

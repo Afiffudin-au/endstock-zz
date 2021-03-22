@@ -38,6 +38,7 @@ function App({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       {loading && (
         <Progress
+          zIndex={10}
           position='fixed'
           top='0'
           right='0'

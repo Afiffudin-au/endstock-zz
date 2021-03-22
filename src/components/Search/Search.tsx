@@ -36,7 +36,7 @@ function Search() {
               <MenuItem
                 icon={<MdPhotoCamera />}
                 onClick={() => setTitle('Images')}>
-                Photo
+                Images
               </MenuItem>
               <MenuItem
                 icon={<BsFillCameraVideoFill />}

@@ -43,7 +43,7 @@ function SearchResult({ data, pageProp }: { data: any; pageProp: any }) {
   const [typeImage, setTypeImage] = useState<string>('photo')
   const [peopleAge, setPeopleAge] = useState<string>('teenagers')
   const [perPage, setPerPage] = useState<number>(20)
-  const [page, setPage] = useState<number>(parseInt(pageProp))
+  const [page, setPage] = useState<number>(parseInt(pageProp) || 1)
   const [checkBox, setCheckBox] = useState<boolean>(true)
   const [erorrPerPage, setErorrPerPage] = useState<boolean>(false)
   const [erorrPage, setErorrPage] = useState<boolean>(false)
@@ -198,7 +198,7 @@ function SearchResult({ data, pageProp }: { data: any; pageProp: any }) {
                     placeholder='Per Page'
                     min={1}
                     max={500}
-                    onChange={(e) => setPerPage(parseInt(e.target.value))}
+                    onChange={(e) => setPerPage(parseInt(e.target.value) || 1)}
                   />
                 </Flex>
 
@@ -215,7 +215,7 @@ function SearchResult({ data, pageProp }: { data: any; pageProp: any }) {
                     placeholder='Page'
                     min={1}
                     max={100}
-                    onChange={(e) => setPage(parseInt(e.target.value))}
+                    onChange={(e) => setPage(parseInt(e.target.value) || 1)}
                   />
                 </Flex>
               </Flex>
