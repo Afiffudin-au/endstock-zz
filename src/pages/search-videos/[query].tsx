@@ -14,14 +14,20 @@ import {
   MenuList,
   Checkbox,
   Input,
+  Tooltip,
 } from '@chakra-ui/react'
+import { FiRefreshCcw } from 'react-icons/fi/index'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { token } from '../../api-token/token'
 import CardVideo from '../../components/CardVideo/CardVideo'
+import DatePicker from '../../components/DatePicker/DatePicker'
+import FilterAction from '../../components/FilterAction/FilterAction'
+import PageFilter from '../../components/PageFilter/PageFilter'
 import Search from '../../components/Search/Search'
 import { peopleAges, sortData } from './dataFilter'
+import RefreshButton from '../../components/RefreshButton/RefreshButton'
 interface DataVideoItems {
   description: string
   assets: {
@@ -41,6 +47,7 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
   const [perPage, setPerPage] = useState<number>(20)
   const [page, setPage] = useState<number>(parseInt(pageProp || 1) || 1)
   const [safeSearch, setSafeSearch] = useState<boolean>(true)
+  const [startDate, setStartDate] = useState(new Date())
   const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
   const handleNext = (page: number) => {
@@ -94,13 +101,19 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
       shallow: true,
     })
   }
+  const handleRefresh = () => {
+    router.push(`/search-videos/${router.query.query}`)
+  }
   return (
     <Box p={2}>
       <Search titleProps='Videos' />
-      <Box mb='2'>
+      <Box mb='2' display='flex' justifyContent='space-between'>
         <Button size='sm' colorScheme='blue' onClick={onOpen}>
           Filter Configuration
         </Button>
+        <Box>
+          <RefreshButton handleRefresh={handleRefresh} />
+        </Box>
       </Box>
       <Drawer placement={'left'} onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay>
@@ -159,55 +172,23 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
                   </MenuList>
                 </Menu>
               </Box>
-              <Flex alignItems='center' mb='2' justifyContent='stretch'>
-                <Flex flexDirection='column' flex='0.5' marginRight='10px'>
-                  {erorrPerPage && (
-                    <Text color='red.500' fontSize='13px'>
-                      Maximum Per Page: 500
-                    </Text>
-                  )}
-                  <Input
-                    type='number'
-                    variant='flushed'
-                    placeholder='Per Page'
-                    min={1}
-                    max={500}
-                    onChange={(e) => setPerPage(parseInt(e.target.value) || 1)}
-                  />
-                </Flex>
+              <PageFilter
+                setPage={setPage}
+                setPerPage={setPerPage}
+                erorrPage={erorrPage}
+                erorrPerPage={erorrPerPage}
+              />
 
-                <Flex flexDirection='column' flex='0.5'>
-                  {erorrPage && (
-                    <Text color='red.500' fontSize='13px'>
-                      Maximum Page: 100
-                    </Text>
-                  )}
+              <Box mb='2'>
+                <DatePicker startDate={startDate} setStartDate={setStartDate} />
+              </Box>
 
-                  <Input
-                    type='number'
-                    variant='flushed'
-                    placeholder='Page'
-                    min={1}
-                    max={100}
-                    onChange={(e) => setPage(parseInt(e.target.value) || 1)}
-                  />
-                </Flex>
-              </Flex>
-              <Button
-                mb='2'
-                width='100%'
-                onClick={handleApplyFilter}
-                colorScheme='blue'
-                size='sm'>
-                Apply Filter
-              </Button>
-              <Button
-                onClick={handleResetFilter}
-                width='100%'
-                colorScheme='red'
-                size='sm'>
-                Reset Filter
-              </Button>
+              <Box>
+                <FilterAction
+                  handleApplyFilter={handleApplyFilter}
+                  handleResetFilter={handleResetFilter}
+                />
+              </Box>
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>

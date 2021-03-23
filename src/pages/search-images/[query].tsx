@@ -26,6 +26,10 @@ import { token } from '../../api-token/token'
 import Card, { CardOptions } from '../../components/Card/Card'
 import Search from '../../components/Search/Search'
 import { imageType, sortData, peopleAges } from './dataFilter'
+import DatePicker from '../../components/DatePicker/DatePicker'
+import FilterAction from '../../components/FilterAction/FilterAction'
+import PageFilter from '../../components/PageFilter/PageFilter'
+import RefreshButton from '../../components/RefreshButton/RefreshButton'
 interface DataItems {
   description: string
   id: number | string
@@ -47,6 +51,7 @@ function SearchResult({ data, pageProp }: { data: any; pageProp: any }) {
   const [checkBox, setCheckBox] = useState<boolean>(true)
   const [erorrPerPage, setErorrPerPage] = useState<boolean>(false)
   const [erorrPage, setErorrPage] = useState<boolean>(false)
+  const [startDate, setStartDate] = useState(new Date())
   const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
   const handleNext = (page: any) => {
@@ -101,13 +106,19 @@ function SearchResult({ data, pageProp }: { data: any; pageProp: any }) {
       shallow: true,
     })
   }
+  const handleRefresh = () => {
+    router.push(`/search-images/${router.query.query}`)
+  }
   return (
     <Box p='2'>
       <Search titleProps='Images' />
-      <Box mb='2'>
+      <Box mb='2' display='flex' justifyContent='space-between'>
         <Button size='sm' colorScheme='blue' onClick={onOpen}>
           Filter Configuration
         </Button>
+        <Box>
+          <RefreshButton handleRefresh={handleRefresh} />
+        </Box>
       </Box>
       <Drawer placement={'left'} onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay>
@@ -185,55 +196,21 @@ function SearchResult({ data, pageProp }: { data: any; pageProp: any }) {
                   </MenuList>
                 </Menu>
               </Box>
-              <Flex alignItems='center' mb='2' justifyContent='stretch'>
-                <Flex flexDirection='column' flex='0.5' marginRight='10px'>
-                  {erorrPerPage && (
-                    <Text color='red.500' fontSize='13px'>
-                      Maximum Per Page: 500
-                    </Text>
-                  )}
-                  <Input
-                    type='number'
-                    variant='flushed'
-                    placeholder='Per Page'
-                    min={1}
-                    max={500}
-                    onChange={(e) => setPerPage(parseInt(e.target.value) || 1)}
-                  />
-                </Flex>
-
-                <Flex flexDirection='column' flex='0.5'>
-                  {erorrPage && (
-                    <Text color='red.500' fontSize='13px'>
-                      Maximum Page: 100
-                    </Text>
-                  )}
-
-                  <Input
-                    type='number'
-                    variant='flushed'
-                    placeholder='Page'
-                    min={1}
-                    max={100}
-                    onChange={(e) => setPage(parseInt(e.target.value) || 1)}
-                  />
-                </Flex>
-              </Flex>
-              <Button
-                mb='2'
-                width='100%'
-                onClick={handleApplyFilter}
-                colorScheme='blue'
-                size='sm'>
-                Apply Filter
-              </Button>
-              <Button
-                onClick={handleResetFilter}
-                width='100%'
-                colorScheme='red'
-                size='sm'>
-                Reset Filter
-              </Button>
+              <PageFilter
+                setPage={setPage}
+                setPerPage={setPerPage}
+                erorrPage={erorrPage}
+                erorrPerPage={erorrPerPage}
+              />
+              <Box mb='2'>
+                <DatePicker startDate={startDate} setStartDate={setStartDate} />
+              </Box>
+              <Box>
+                <FilterAction
+                  handleApplyFilter={handleApplyFilter}
+                  handleResetFilter={handleResetFilter}
+                />
+              </Box>
             </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>

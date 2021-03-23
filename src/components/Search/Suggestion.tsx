@@ -52,7 +52,6 @@ function Suggestion({ title }: { title: string }) {
       pushingData(dataImageSuggestion.data)
     }
     if (title === 'Videos') {
-      console.log(dataVideoSuggestion.data)
       pushingData(dataVideoSuggestion.data)
     }
   }, [dataImageSuggestion, dataVideoSuggestion])
