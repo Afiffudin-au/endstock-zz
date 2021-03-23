@@ -3,11 +3,11 @@ import { useState } from 'react'
 import { token } from '../../api-token/token'
 
 export const useGetSearchImageSuggestion = () => {
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loadingImageSuggestion, setLoadingImageSuggestion] = useState<boolean>(false)
   const [dataImageSuggestion, setDataImageSuggestion] = useState<any>([])
   const getSearchImageSuggestion = (query:string) => {
     if(query === '') return
-    setLoading(true)
+    setLoadingImageSuggestion(true)
     axios({
       method: 'get',
       headers: {
@@ -17,16 +17,16 @@ export const useGetSearchImageSuggestion = () => {
       params: { query: query,limit : 10 },
     })
       .then((res) => {
-        setLoading(false)
+        setLoadingImageSuggestion(false)
         setDataImageSuggestion(res.data)
       })
       .catch((err) => {
-        setLoading(false)
+        setLoadingImageSuggestion(false)
       })
   }
   return {
     getSearchImageSuggestion,
-    loading,
+    loadingImageSuggestion,
     dataImageSuggestion
   }
 }

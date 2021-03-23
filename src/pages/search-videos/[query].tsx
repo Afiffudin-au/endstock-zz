@@ -94,7 +94,6 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
       shallow: true,
     })
   }
-  console.log(data)
   return (
     <Box p={2}>
       <Search />

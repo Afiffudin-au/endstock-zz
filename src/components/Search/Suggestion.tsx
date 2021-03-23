@@ -1,5 +1,5 @@
 import { SearchIcon } from '@chakra-ui/icons'
-import { Box, IconButton, Input } from '@chakra-ui/react'
+import { Box, CircularProgress, IconButton, Input } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Autosuggest from 'react-autosuggest'
@@ -26,10 +26,12 @@ function Suggestion({ title }: { title: string }) {
   const [value, setValue] = useState<string>('')
   const router = useRouter()
   const {
+    loadingImageSuggestion,
     dataImageSuggestion,
     getSearchImageSuggestion,
   } = useGetSearchImageSuggestion()
   const {
+    loadingVideoSuggestion,
     dataVideoSuggestion,
     getSearchVideoSuggestion,
   } = useGetSearchVideoSuggestion()
@@ -87,19 +89,28 @@ function Suggestion({ title }: { title: string }) {
       router.push(`/search-videos/${value}`)
     }
   }
+  const CustomProgress = () => (
+    <CircularProgress mr='2' size='23px' isIndeterminate color='blue.500' />
+  )
   return (
     <>
       <Box flex='1'>
-        <form action='' style={{ height: '100%' }}>
-          <Autosuggest
-            onSuggestionSelected={handleSearch}
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={onSuggestionsClearRequested}
-            getSuggestionValue={getSuggestionValue}
-            renderSuggestion={renderSuggestion}
-            inputProps={inputProps}
-          />
+        <form
+          action=''
+          style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
+          <Box flex='1'>
+            <Autosuggest
+              onSuggestionSelected={handleSearch}
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={onSuggestionsClearRequested}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={renderSuggestion}
+              inputProps={inputProps}
+            />
+          </Box>
+          {loadingImageSuggestion && <CustomProgress />}
+          {loadingVideoSuggestion && <CustomProgress />}
           <button style={{ display: 'none' }} onClick={handleSearch}></button>
         </form>
       </Box>
