@@ -96,7 +96,7 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
   }
   return (
     <Box p={2}>
-      <Search />
+      <Search titleProps='Videos' />
       <Box mb='2'>
         <Button size='sm' colorScheme='blue' onClick={onOpen}>
           Filter Configuration

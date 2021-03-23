@@ -11,7 +11,7 @@ export default function Home({ dataImages }: any) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Box p='1'>
-        <Search />
+        <Search titleProps='Images' />
       </Box>
     </div>
   )

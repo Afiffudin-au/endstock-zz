@@ -12,8 +12,12 @@ import React, { useState } from 'react'
 import { MdPhotoCamera } from 'react-icons/md/index'
 import { BsMusicNoteBeamed, BsFillCameraVideoFill } from 'react-icons/bs/index'
 import Suggestion from './Suggestion'
-function Search() {
-  const [title, setTitle] = useState<string>('Images')
+function Search({
+  titleProps,
+}: {
+  titleProps: 'Images' | 'Videos' | 'Musics'
+}) {
+  const [title, setTitle] = useState<string>(titleProps)
   return (
     <Box
       borderWidth='1px'
@@ -41,12 +45,12 @@ function Search() {
               <MenuItem
                 icon={<BsFillCameraVideoFill />}
                 onClick={() => setTitle('Videos')}>
-                Video
+                Videos
               </MenuItem>
               <MenuItem
                 icon={<BsMusicNoteBeamed />}
                 onClick={() => setTitle('Music')}>
-                Music
+                Musics
               </MenuItem>
             </MenuList>
           </Menu>
