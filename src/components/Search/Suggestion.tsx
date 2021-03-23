@@ -3,13 +3,14 @@ import { Box, IconButton, Input } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Autosuggest from 'react-autosuggest'
-import { useGetSearchSuggestion } from '../../custom-hooks/useGetSearchSuggestion/useGetSearchSuggestion'
+import { useGetSearchImageSuggestion } from '../../custom-hooks/useGetSearchImageSuggestion/useGetSearchImageSuggestion'
+import { useGetSearchVideoSuggestion } from '../../custom-hooks/useGetSearchVideoSuggestion/useGetSearchVideoSuggestion'
 const languages: any = []
 const getSuggestions = (value: string) => {
   const inputValue = value.trim().toLowerCase()
   const inputLength = inputValue.length
   if (languages.length > 20) {
-    languages.length = 20
+    languages.length = 10
   }
   return inputLength === 0
     ? []
@@ -24,21 +25,42 @@ function Suggestion({ title }: { title: string }) {
   const [suggestions, setSuggestions] = useState<any>([])
   const [value, setValue] = useState<string>('')
   const router = useRouter()
-  const { dataSuggestion, getSearchSuggestion } = useGetSearchSuggestion()
-  useEffect(() => {
-    if (dataSuggestion.data) {
+  const {
+    dataImageSuggestion,
+    getSearchImageSuggestion,
+  } = useGetSearchImageSuggestion()
+  const {
+    dataVideoSuggestion,
+    getSearchVideoSuggestion,
+  } = useGetSearchVideoSuggestion()
+  const pushingData = (data: any) => {
+    if (data) {
       languages.push({
         name: '',
       })
-      for (let i = 0; i < dataSuggestion.data?.length; i++) {
+      for (let i = 0; i < data?.length; i++) {
         languages.push({
-          name: dataSuggestion.data[i],
+          name: data[i],
         })
       }
     }
-  }, [dataSuggestion])
+  }
+  useEffect(() => {
+    if (title === 'Images') {
+      pushingData(dataImageSuggestion.data)
+    }
+    if (title === 'Videos') {
+      console.log(dataVideoSuggestion.data)
+      pushingData(dataVideoSuggestion.data)
+    }
+  }, [dataImageSuggestion, dataVideoSuggestion])
   const onChange = (event: any, { newValue }: any) => {
-    getSearchSuggestion(newValue)
+    if (title === 'Images') {
+      getSearchImageSuggestion(newValue)
+    }
+    if (title === 'Videos') {
+      getSearchVideoSuggestion(newValue)
+    }
     setValue(newValue)
   }
   const onSuggestionsFetchRequested = ({ value }: any) => {

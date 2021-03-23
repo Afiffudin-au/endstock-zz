@@ -5,8 +5,13 @@ import styles from './CardVideo.module.scss'
 interface CardVideoOptions {
   url: string
   thumbnail: string
+  description: string
 }
-function CardVideo({ url, thumbnail }: Required<CardVideoOptions>) {
+function CardVideo({
+  url,
+  thumbnail,
+  description,
+}: Required<CardVideoOptions>) {
   return (
     <div className={styles.CardVideo}>
       <div className={styles.playerWrapper}>
@@ -19,6 +24,16 @@ function CardVideo({ url, thumbnail }: Required<CardVideoOptions>) {
           url={url}
         />
       </div>
+      <Box p={5}>
+        <Box
+          mt='1'
+          fontWeight='semibold'
+          as='h4'
+          lineHeight='tight'
+          isTruncated>
+          {description}
+        </Box>
+      </Box>
     </div>
   )
 }

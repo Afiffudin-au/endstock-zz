@@ -23,6 +23,7 @@ import CardVideo from '../../components/CardVideo/CardVideo'
 import Search from '../../components/Search/Search'
 import { peopleAges, sortData } from './dataFilter'
 interface DataVideoItems {
+  description: string
   assets: {
     preview_jpg: {
       url: string
@@ -212,13 +213,10 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
-      <SimpleGrid
-        columns={{ sm: 1, md: 2, lg: 3, xl: 3 }}
-        spacing={5}
-        // autoRows={{ sm: '200px', md: '250px', lg: '300px' }}
-      >
+      <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 3 }} spacing={5}>
         {data?.data?.map((item: DataVideoItems, index: number) => (
           <CardVideo
+            description={item.description}
             key={item.assets.preview_webm.url}
             url={item.assets.preview_webm.url}
             thumbnail={item.assets.preview_jpg.url}
