@@ -13,10 +13,12 @@ import {
   MenuItem,
   MenuList,
   Checkbox,
-  Input,
-  Tooltip,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  CloseButton,
 } from '@chakra-ui/react'
-import { FiRefreshCcw } from 'react-icons/fi/index'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
@@ -26,8 +28,9 @@ import DatePicker from '../../components/DatePicker/DatePicker'
 import FilterAction from '../../components/FilterAction/FilterAction'
 import PageFilter from '../../components/PageFilter/PageFilter'
 import Search from '../../components/Search/Search'
-import { peopleAges, sortData } from './dataFilter'
+import { sortData } from './dataFilter'
 import RefreshButton from '../../components/RefreshButton/RefreshButton'
+import moment from 'moment'
 interface DataVideoItems {
   description: string
   assets: {
@@ -40,14 +43,13 @@ interface DataVideoItems {
   }
 }
 function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
-  const [peopleAge, setPeopleAge] = useState<string>('teenagers')
   const [typeSort, setTypeSort] = useState<string>('popular')
   const [erorrPage, setErorrPage] = useState<boolean>(false)
   const [erorrPerPage, setErorrPerPage] = useState<boolean>(false)
   const [perPage, setPerPage] = useState<number>(20)
   const [page, setPage] = useState<number>(parseInt(pageProp || 1) || 1)
   const [safeSearch, setSafeSearch] = useState<boolean>(true)
-  const [startDate, setStartDate] = useState(new Date())
+  const [startDate, setStartDate] = useState<any>('')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
   const handleNext = (page: number) => {
@@ -80,23 +82,27 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
     const query: any = router.query
     query.sort = typeSort
     query.safeSearch = safeSearch
-    query.peopleAge = peopleAge
     query.perPage = perPage
     query.page = page
-    console.log(query)
+    if (startDate) {
+      query.addedDate = moment(startDate).format('YYYY-MM-DD')
+    } else {
+      delete query.addedDate
+    }
+
     router.push({
       pathname: path,
       query,
     })
   }
   const handleResetFilter = () => {
-    setPeopleAge('teenagers')
     setTypeSort('popular')
     setSafeSearch(true)
     setErorrPage(false)
     setErorrPerPage(false)
     setPerPage(20)
     setPage(1)
+    setStartDate('')
     router.push(`/search-videos/${router.query.query}`, undefined, {
       shallow: true,
     })
@@ -107,6 +113,17 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
   return (
     <Box p={2}>
       <Search titleProps='Videos' />
+      {/* {data.data?.length === 0 && (
+        <Alert status='error' mb='2'>
+          <AlertIcon />
+          <AlertTitle mr={2}>Your browser is outdated!</AlertTitle>
+          <AlertDescription>
+            Your Chakra experience may be degraded.
+          </AlertDescription>
+          <CloseButton position='absolute' right='8px' top='8px' />
+        </Alert>
+      )} */}
+
       <Box mb='2' display='flex' justifyContent='space-between'>
         <Button size='sm' colorScheme='blue' onClick={onOpen}>
           Filter Configuration
@@ -154,24 +171,6 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
                   Safe Search
                 </Checkbox>
               </Flex>
-              <Box mb='2'>
-                <Menu size='sm'>
-                  <MenuButton
-                    width='100%'
-                    size='sm'
-                    as={Button}
-                    rightIcon={<ChevronDownIcon />}>
-                    {peopleAge}
-                  </MenuButton>
-                  <MenuList>
-                    {peopleAges.map((item) => (
-                      <MenuItem onClick={() => setPeopleAge(item)} key={item}>
-                        {item}
-                      </MenuItem>
-                    ))}
-                  </MenuList>
-                </Menu>
-              </Box>
               <PageFilter
                 setPage={setPage}
                 setPerPage={setPerPage}
@@ -252,22 +251,26 @@ export const getServerSideProps = async (context: any) => {
   const pageProp = context.query.page || 1
   const sort = context.query.sort
   const safeSearch = context.query.safeSearch
-  const peopleAge = context.query.peopleAge
   const perPage = context.query.perPage
+  const addedDate = context.query.addedDate
+  const params: any = {
+    query: query,
+    page: pageProp,
+    per_page: perPage,
+    sort: sort,
+    keyword_safe_search: safeSearch,
+    added_date: addedDate,
+  }
+  if (params['added_date'] === 'Invalid date') {
+    delete params['added_date']
+  }
   const data = await axios({
     method: 'get',
     headers: {
       Authorization: `Basic ${token}`,
     },
     url: `https://api.shutterstock.com/v2/videos/search`,
-    params: {
-      query: query,
-      page: pageProp,
-      per_page: perPage,
-      sort: sort,
-      keyword_safe_search: safeSearch,
-      people_age: peopleAge,
-    },
+    params,
   })
     .then((res) => {
       return res.data

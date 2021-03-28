@@ -11,6 +11,7 @@ function DatePicker({
   return (
     <div className={styles.custom}>
       <ReactDatePicker
+        dateFormat='yyyy-MM-dd'
         selected={startDate}
         onChange={(date: any) => setStartDate(date)}
         placeholderText='images added date'
