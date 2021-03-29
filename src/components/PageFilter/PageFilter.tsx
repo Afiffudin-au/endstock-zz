@@ -5,6 +5,8 @@ interface PageFilterItems {
   setPerPage: any
   erorrPerPage: boolean
   erorrPage: boolean
+  page: number
+  perPage: number
 }
 function PageFilter({
   setPage,

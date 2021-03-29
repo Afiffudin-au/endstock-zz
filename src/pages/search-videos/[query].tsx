@@ -31,6 +31,7 @@ import Search from '../../components/Search/Search'
 import { sortData } from './dataFilter'
 import RefreshButton from '../../components/RefreshButton/RefreshButton'
 import moment from 'moment'
+import SearchAlert from '../../components/SearchAlert/SearchAlert'
 interface DataVideoItems {
   description: string
   assets: {
@@ -113,16 +114,7 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
   return (
     <Box p={2}>
       <Search titleProps='Videos' />
-      {/* {data.data?.length === 0 && (
-        <Alert status='error' mb='2'>
-          <AlertIcon />
-          <AlertTitle mr={2}>Your browser is outdated!</AlertTitle>
-          <AlertDescription>
-            Your Chakra experience may be degraded.
-          </AlertDescription>
-          <CloseButton position='absolute' right='8px' top='8px' />
-        </Alert>
-      )} */}
+      {data.data?.length === 0 && <SearchAlert />}
 
       <Box mb='2' display='flex' justifyContent='space-between'>
         <Button size='sm' colorScheme='blue' onClick={onOpen}>
