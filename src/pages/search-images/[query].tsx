@@ -43,7 +43,7 @@ interface DataItems {
   }
 }
 
-function SearchResult({ data, pageProp }: { data: any; pageProp: any }) {
+function SearchImage({ data, pageProp }: { data: any; pageProp: any }) {
   const [typeSort, setTypeSort] = useState<string>('popular')
   const [typeImage, setTypeImage] = useState<string>('photo')
   const [peopleAge, setPeopleAge] = useState<string>('teenagers')
@@ -277,7 +277,7 @@ function compare(prevProps: any, nextProps: any) {
 //! react.memo -> kalau true component tidak di-render , kalau false di re-render
 const MemoizedChildComponent = React.memo(ChildComponent)
 
-export default SearchResult
+export default SearchImage
 export const getServerSideProps = async (context: any) => {
   const query = context.params.query
   const pageProp = context.query.page || 1

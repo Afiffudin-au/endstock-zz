@@ -49,7 +49,7 @@ function Search({
               </MenuItem>
               <MenuItem
                 icon={<BsMusicNoteBeamed />}
-                onClick={() => setTitle('Music')}>
+                onClick={() => setTitle('Musics')}>
                 Musics
               </MenuItem>
             </MenuList>

@@ -35,7 +35,13 @@ function Suggestion({ title }: { title: string }) {
     dataVideoSuggestion,
     getSearchVideoSuggestion,
   } = useGetSearchVideoSuggestion()
-  const pushingData = (data: any) => {
+  const pushingData = (data?: any, condition?: string) => {
+    if (title === 'Musics') {
+      languages.push({
+        name: '',
+      })
+      return
+    }
     if (data) {
       languages.push({
         name: '',
@@ -54,6 +60,9 @@ function Suggestion({ title }: { title: string }) {
     if (title === 'Videos') {
       pushingData(dataVideoSuggestion.data)
     }
+    if (title === 'Musics') {
+      pushingData()
+    }
   }, [dataImageSuggestion, dataVideoSuggestion])
   const onChange = (event: any, { newValue }: any) => {
     if (title === 'Images') {
@@ -61,6 +70,8 @@ function Suggestion({ title }: { title: string }) {
     }
     if (title === 'Videos') {
       getSearchVideoSuggestion(newValue)
+    }
+    if (title === 'Musics') {
     }
     setValue(newValue)
   }
@@ -86,6 +97,9 @@ function Suggestion({ title }: { title: string }) {
     }
     if (title === 'Videos') {
       router.push(`/search-videos/${value}`)
+    }
+    if (title === 'Musics') {
+      router.push(`/search-musics/${value}`)
     }
   }
   const CustomProgress = () => (
