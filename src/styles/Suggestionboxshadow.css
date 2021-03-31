@@ -1,0 +1,4 @@
+.react-autosuggest__suggestions-container--open {
+  box-shadow: 0 9px 8px -3px rgb(64 60 67 / 24%),
+    8px 0 8px -7px rgb(64 60 67 / 24%), -8px 0 8px -7px rgb(64 60 67 / 24%);
+}

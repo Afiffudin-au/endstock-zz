@@ -3,6 +3,7 @@ import '../styles/globals.scss'
 import { ChakraProvider, Progress } from '@chakra-ui/react'
 import '../styles/Suggestion.scss'
 import 'react-datepicker/dist/react-datepicker.css'
+import '../styles/Suggestionboxshadow.css'
 // 1. Import the utilities
 import { extendTheme } from '@chakra-ui/react'
 import { createBreakpoints } from '@chakra-ui/theme-tools'
