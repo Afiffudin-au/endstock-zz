@@ -272,10 +272,6 @@ function SearchImage({ data, pageProp }: { data: any; pageProp: any }) {
 function ChildComponent({ description, image, id }: Required<CardOptions>) {
   return <Card description={description} image={image} id={id} />
 }
-function compare(prevProps: any, nextProps: any) {
-  return JSON.stringify(prevProps) === JSON.stringify(nextProps)
-}
-//! react.memo -> kalau true component tidak di-render , kalau false di re-render
 const MemoizedChildComponent = React.memo(ChildComponent)
 
 export default SearchImage

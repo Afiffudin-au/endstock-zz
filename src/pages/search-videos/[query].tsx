@@ -23,7 +23,9 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { token } from '../../api-token/token'
-import CardVideo from '../../components/CardVideo/CardVideo'
+import CardVideo, {
+  CardVideoOptions,
+} from '../../components/CardVideo/CardVideo'
 import DatePicker from '../../components/DatePicker/DatePicker'
 import FilterAction from '../../components/FilterAction/FilterAction'
 import PageFilter from '../../components/PageFilter/PageFilter'
@@ -33,6 +35,7 @@ import RefreshButton from '../../components/RefreshButton/RefreshButton'
 import moment from 'moment'
 import SearchAlert from '../../components/SearchAlert/SearchAlert'
 interface DataVideoItems {
+  id: string
   description: string
   assets: {
     preview_jpg: {
@@ -186,7 +189,8 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
       </Drawer>
       <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 3 }} spacing={5}>
         {data?.data?.map((item: DataVideoItems, index: number) => (
-          <CardVideo
+          <MemoizedChildComponent
+            id={item.id}
             description={item.description}
             key={item.assets.preview_webm.url}
             url={item.assets.preview_webm.url}
@@ -236,7 +240,22 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
     </Box>
   )
 }
-
+function ChildComponent({
+  description,
+  url,
+  thumbnail,
+  id,
+}: Required<CardVideoOptions>) {
+  return (
+    <CardVideo
+      id={id}
+      description={description}
+      url={url}
+      thumbnail={thumbnail}
+    />
+  )
+}
+const MemoizedChildComponent = React.memo(ChildComponent)
 export default SearchVideo
 export const getServerSideProps = async (context: any) => {
   const query = context.params.query

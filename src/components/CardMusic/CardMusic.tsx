@@ -1,7 +1,7 @@
 import { Image } from '@chakra-ui/image'
 import { Box, Flex } from '@chakra-ui/layout'
 import React from 'react'
-interface CardMusicOptions {
+export interface CardMusicOptions {
   title: string
   description: string
   thumbnail: string

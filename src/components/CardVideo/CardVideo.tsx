@@ -2,12 +2,14 @@ import { Box } from '@chakra-ui/layout'
 import React from 'react'
 import ReactPlayer from 'react-player'
 import styles from './CardVideo.module.scss'
-interface CardVideoOptions {
+export interface CardVideoOptions {
+  id: string
   url: string
   thumbnail: string
   description: string
 }
 function CardVideo({
+  id,
   url,
   thumbnail,
   description,
