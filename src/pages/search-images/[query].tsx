@@ -30,7 +30,7 @@ import DatePicker from '../../components/DatePicker/DatePicker'
 import FilterAction from '../../components/FilterAction/FilterAction'
 import PageFilter from '../../components/PageFilter/PageFilter'
 import RefreshButton from '../../components/RefreshButton/RefreshButton'
-import CardEx from '../../components/CardEx/CardEx'
+import SearchAlert from '../../components/SearchAlert/SearchAlert'
 interface DataItems {
   description: string
   id: number | string
@@ -113,6 +113,7 @@ function SearchImage({ data, pageProp }: { data: any; pageProp: any }) {
   return (
     <Box p='2'>
       <Search titleProps='Images' />
+      {data.data?.length === 0 && <SearchAlert />}
       <Box mb='2' display='flex' justifyContent='space-between'>
         <Button size='sm' colorScheme='blue' onClick={onOpen}>
           Filter Configuration
