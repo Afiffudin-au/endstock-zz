@@ -1,4 +1,4 @@
-import { CloseIcon } from '@chakra-ui/icons'
+import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons'
 import { Box, Flex } from '@chakra-ui/layout'
 import {
   Button,
@@ -9,6 +9,10 @@ import {
   DrawerBody,
   useDisclosure,
   IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
@@ -17,10 +21,13 @@ import { token } from '../../api-token/token'
 import CardMusic, {
   CardMusicOptions,
 } from '../../components/CardMusic/CardMusic'
+import FilterAction from '../../components/FilterAction/FilterAction'
+import PageFilter from '../../components/PageFilter/PageFilter'
 import Pagenation from '../../components/Pagenation/Pagenation'
 import RefreshButton from '../../components/RefreshButton/RefreshButton'
 import Search from '../../components/Search/Search'
 import SearchAlert from '../../components/SearchAlert/SearchAlert'
+import { sortTypes, sortOrderTypes } from './dataFilter'
 interface DataMusicItems {
   id: string
   title: string
@@ -40,8 +47,14 @@ interface DataMusicItems {
   }
 }
 function SearchMusic({ data, pageProp }: { data: any; pageProp: any }) {
+  const [sortType, setSortType] = useState<string>('sort')
+  const [sortOrderType, setSortOrderType] = useState<string>('desc')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [page, setPage] = useState<number>(parseInt(pageProp || 1) || 1)
+  const [perPage, setPerPage] = useState<number>(20)
+  const [erorrPerPage, setErorrPerPage] = useState<boolean>(false)
+  const [erorrPage, setErorrPage] = useState<boolean>(false)
+  const router = useRouter()
   const handleNext = (page: number) => {
     setPage(page)
     const path = router.pathname
@@ -52,10 +65,51 @@ function SearchMusic({ data, pageProp }: { data: any; pageProp: any }) {
       query,
     })
   }
-  const router = useRouter()
+  const handleApplyFilter = () => {
+    if (perPage > 500) {
+      setErorrPerPage(true)
+      return
+    }
+    if (erorrPerPage) {
+      setErorrPerPage(false)
+    }
+
+    if (page > 100) {
+      setErorrPage(true)
+      return
+    }
+    if (erorrPage) {
+      setErorrPage(false)
+    }
+    const path = router.pathname
+    const query: any = router.query
+    query.page = page
+    query.perPage = perPage
+    query.sortType = sortType
+    query.sortOrderType = sortOrderType
+    if (sortType === 'sort') {
+      delete query.sortType
+    }
+    router.push({
+      pathname: path,
+      query,
+    })
+  }
+  const handleResetFilter = () => {
+    setSortType('Sort')
+    setSortOrderType('desc')
+    setPage(1)
+    setPerPage(20)
+    setErorrPerPage(false)
+    setErorrPage(false)
+    router.push(`/search-musics/${router.query.query}`, undefined, {
+      shallow: true,
+    })
+  }
   const handleRefresh = () => {
     router.push(`/search-musics/${router.query.query}`)
   }
+  console.log(data)
   return (
     <Box p='2'>
       <Search titleProps='Musics' />
@@ -81,7 +135,60 @@ function SearchMusic({ data, pageProp }: { data: any; pageProp: any }) {
                 icon={<CloseIcon />}
               />
             </DrawerHeader>
-            <DrawerBody></DrawerBody>
+            <DrawerBody>
+              <Flex mb='2'>
+                <Box mr='2' flex='0.5'>
+                  <Menu size='sm'>
+                    <MenuButton
+                      width='100%'
+                      size='sm'
+                      as={Button}
+                      rightIcon={<ChevronDownIcon />}>
+                      {sortType}
+                    </MenuButton>
+                    <MenuList>
+                      {sortTypes.map((item) => (
+                        <MenuItem onClick={() => setSortType(item)} key={item}>
+                          {item}
+                        </MenuItem>
+                      ))}
+                    </MenuList>
+                  </Menu>
+                </Box>
+                <Box flex='0.5'>
+                  <Menu size='sm'>
+                    <MenuButton
+                      width='100%'
+                      size='sm'
+                      as={Button}
+                      rightIcon={<ChevronDownIcon />}>
+                      {sortOrderType}
+                    </MenuButton>
+                    <MenuList>
+                      {sortOrderTypes.map((item) => (
+                        <MenuItem
+                          onClick={() => setSortOrderType(item)}
+                          key={item}>
+                          {item}
+                        </MenuItem>
+                      ))}
+                    </MenuList>
+                  </Menu>
+                </Box>
+              </Flex>
+              <PageFilter
+                setPage={setPage}
+                setPerPage={setPerPage}
+                erorrPage={erorrPage}
+                erorrPerPage={erorrPerPage}
+              />
+              <Box>
+                <FilterAction
+                  handleApplyFilter={handleApplyFilter}
+                  handleResetFilter={handleResetFilter}
+                />
+              </Box>
+            </DrawerBody>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
@@ -118,8 +225,15 @@ export default SearchMusic
 export const getServerSideProps = async (context: any) => {
   const query = context.params.query
   const pageProp = context.query.page || 1
+  const perPage = context.query.perPage
+  const sortType = context.query.sortType
+  const sortOrderType = context.query.sortOrderType
   const params = {
     query: query,
+    page: pageProp,
+    per_page: perPage,
+    sort: sortType,
+    sort_order: sortOrderType,
   }
   const data = await axios({
     method: 'get',
@@ -135,7 +249,6 @@ export const getServerSideProps = async (context: any) => {
     .catch((err) => {
       return err
     })
-  console.log(data)
   return {
     props: {
       data,
