@@ -34,6 +34,7 @@ import { sortData } from './dataFilter'
 import RefreshButton from '../../components/RefreshButton/RefreshButton'
 import moment from 'moment'
 import SearchAlert from '../../components/SearchAlert/SearchAlert'
+import Pagenation from '../../components/Pagenation/Pagenation'
 interface DataVideoItems {
   id: string
   description: string
@@ -237,6 +238,7 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
           </>
         )}
       </Flex>
+      <Pagenation data={data} page={page} handleNext={handleNext} />
     </Box>
   )
 }

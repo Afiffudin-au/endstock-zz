@@ -12,11 +12,12 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useState } from 'react'
 import { token } from '../../api-token/token'
 import CardMusic, {
   CardMusicOptions,
 } from '../../components/CardMusic/CardMusic'
+import Pagenation from '../../components/Pagenation/Pagenation'
 import RefreshButton from '../../components/RefreshButton/RefreshButton'
 import Search from '../../components/Search/Search'
 import SearchAlert from '../../components/SearchAlert/SearchAlert'
@@ -38,8 +39,19 @@ interface DataMusicItems {
     }
   }
 }
-function SearchMusic({ data }: { data: any }) {
+function SearchMusic({ data, pageProp }: { data: any; pageProp: any }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [page, setPage] = useState<number>(parseInt(pageProp || 1) || 1)
+  const handleNext = (page: number) => {
+    setPage(page)
+    const path = router.pathname
+    const query: any = router.query
+    query.page = page
+    router.push({
+      pathname: path,
+      query,
+    })
+  }
   const router = useRouter()
   const handleRefresh = () => {
     router.push(`/search-musics/${router.query.query}`)
@@ -82,6 +94,7 @@ function SearchMusic({ data }: { data: any }) {
           id={item.id}
         />
       ))}
+      <Pagenation data={data} page={page} handleNext={handleNext} />
     </Box>
   )
 }
@@ -104,6 +117,7 @@ const MemoizedChildComponent = React.memo(ChildComponent)
 export default SearchMusic
 export const getServerSideProps = async (context: any) => {
   const query = context.params.query
+  const pageProp = context.query.page || 1
   const params = {
     query: query,
   }
@@ -125,6 +139,7 @@ export const getServerSideProps = async (context: any) => {
   return {
     props: {
       data,
+      pageProp,
     },
   }
 }
