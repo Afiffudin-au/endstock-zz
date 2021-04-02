@@ -27,7 +27,7 @@ import Pagenation from '../../components/Pagenation/Pagenation'
 import RefreshButton from '../../components/RefreshButton/RefreshButton'
 import Search from '../../components/Search/Search'
 import SearchAlert from '../../components/SearchAlert/SearchAlert'
-import { sortTypes, sortOrderTypes } from './dataFilter'
+import { sortTypes, sortOrderTypes } from '../../dataFilter/Music/dataFilter'
 interface DataMusicItems {
   id: string
   title: string

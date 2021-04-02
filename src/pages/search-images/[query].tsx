@@ -25,7 +25,11 @@ import React, { useState } from 'react'
 import { token } from '../../api-token/token'
 import Card, { CardOptions } from '../../components/Card/Card'
 import Search from '../../components/Search/Search'
-import { imageType, sortData, peopleAges } from './dataFilter'
+import {
+  imageType,
+  sortData,
+  peopleAges,
+} from '../../dataFilter/Image/dataFilter'
 import DatePicker from '../../components/DatePicker/DatePicker'
 import FilterAction from '../../components/FilterAction/FilterAction'
 import PageFilter from '../../components/PageFilter/PageFilter'
