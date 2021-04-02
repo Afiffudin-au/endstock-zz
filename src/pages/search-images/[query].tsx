@@ -109,6 +109,7 @@ function SearchImage({ data, pageProp }: { data: any; pageProp: any }) {
     })
   }
   const handleRefresh = () => {
+    setPage(1)
     router.push(`/search-images/${router.query.query}`)
   }
   return (

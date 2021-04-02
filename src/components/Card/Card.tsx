@@ -11,7 +11,6 @@ function Card({ description, image, id }: Required<CardOptions>) {
   const [imageLoad, setImageLoad] = useState<boolean>(false)
   const [display, setDisplay] = useState<string>('none')
   const handleImageLoad = (e: any) => {
-    console.log(e.target)
     setDisplay('block')
     setImageLoad(true)
   }

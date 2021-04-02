@@ -113,6 +113,7 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
     })
   }
   const handleRefresh = () => {
+    setPage(1)
     router.push(`/search-videos/${router.query.query}`)
   }
   return (

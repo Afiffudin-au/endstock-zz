@@ -95,21 +95,24 @@ function SearchMusic({ data, pageProp }: { data: any; pageProp: any }) {
       query,
     })
   }
-  const handleResetFilter = () => {
+  const resetState = () => {
     setSortType('Sort')
     setSortOrderType('desc')
     setPage(1)
     setPerPage(20)
     setErorrPerPage(false)
     setErorrPage(false)
+  }
+  const handleResetFilter = () => {
+    resetState()
     router.push(`/search-musics/${router.query.query}`, undefined, {
       shallow: true,
     })
   }
   const handleRefresh = () => {
+    setPage(1)
     router.push(`/search-musics/${router.query.query}`)
   }
-  console.log(data)
   return (
     <Box p='2'>
       <Search titleProps='Musics' />
