@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Search from '../components/Search/Search'
 import styles from '../styles/Home.module.scss'
 
-export default function Home({ dataImages }: any) {
+export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
