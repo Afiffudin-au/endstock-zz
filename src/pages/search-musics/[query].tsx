@@ -204,7 +204,11 @@ function SearchMusic({ data, pageProp }: { data: any; pageProp: any }) {
           id={item.id}
         />
       ))}
-      <Pagenation data={data} page={page} handleNext={handleNext} />
+      <Pagenation
+        data={data}
+        page={parseInt(pageProp)}
+        handleNext={handleNext}
+      />
     </Box>
   )
 }

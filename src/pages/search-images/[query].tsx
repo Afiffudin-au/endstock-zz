@@ -233,7 +233,11 @@ function SearchImage({ data, pageProp }: { data: any; pageProp: any }) {
           />
         ))}
       </SimpleGrid>
-      <Pagenation data={data} page={page} handleNext={handleNext} />
+      <Pagenation
+        data={data}
+        page={parseInt(pageProp)}
+        handleNext={handleNext}
+      />
     </Box>
   )
 }

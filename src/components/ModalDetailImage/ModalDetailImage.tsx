@@ -21,6 +21,7 @@ import {
   Fade,
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useGetImageDetail } from '../../custom-hooks/useGetImageDetail/useGetImageDetail'
 import { ImageDetailItems } from './Interfaces'
 let previewItems: any = []
@@ -49,6 +50,8 @@ function ModalDetailImage({
   const [sizeImage, setSizeImage] = useState<string>('Preview')
   const [imageSizeError, setImageSizeError] = useState<boolean>(false)
   const [preveiwImageUrl, setPreveiwImageUrl] = useState<string>('')
+  const [imageLoad, setImageLoad] = useState<boolean>(false)
+  const [display, setDisplay] = useState<string>('none')
   const assets = dataImageDetail?.assets
   useEffect(() => {
     getImageDetail(id)
@@ -79,6 +82,11 @@ function ModalDetailImage({
     setSizeImage(resolution)
     setPreveiwImageUrl(url)
   }
+
+  const handleImageLoad = (e: any) => {
+    setDisplay('block')
+    setImageLoad(true)
+  }
   return (
     <Modal
       scrollBehavior='inside'
@@ -96,7 +104,14 @@ function ModalDetailImage({
           {!isLoading && (
             <Flex>
               <Box mr='2'>
+                {!imageLoad && (
+                  <SkeletonTheme color='#cfd8dc' highlightColor='#eceff1'>
+                    <Skeleton count={1} style={{ paddingBottom: '100%' }} />
+                  </SkeletonTheme>
+                )}
                 <Image
+                  style={{ display: display }}
+                  onLoad={handleImageLoad}
                   src={preveiwImageUrl}
                   alt={`${dataImageDetail?.description} ${preveiwImageUrl}`}
                 />

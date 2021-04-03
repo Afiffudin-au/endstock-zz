@@ -1,8 +1,7 @@
 import { Image } from '@chakra-ui/image'
 import { Box, Flex } from '@chakra-ui/layout'
-import { Skeleton } from '@chakra-ui/skeleton'
 import React, { useState } from 'react'
-import { SkeletonTheme } from 'react-loading-skeleton'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 export interface CardMusicOptions {
   title: string
   description: string
@@ -26,6 +25,7 @@ function CardMusic({
       boxShadow='md'
       m='2'
       p='2'
+      overflow='hidden'
       cursor='pointer'
       transition='ease-in-out'
       _hover={{ transform: 'scale(1.01)', transitionDuration: '.1s' }}>
@@ -35,9 +35,10 @@ function CardMusic({
             <SkeletonTheme color='#cfd8dc' highlightColor='#eceff1'>
               <Skeleton
                 count={1}
-                minWidth='30px'
-                maxWidth='50px'
-                paddingBottom='100%'
+                style={{
+                  height: '40px',
+                  width: '50px',
+                }}
               />
             </SkeletonTheme>
           )}
@@ -52,10 +53,11 @@ function CardMusic({
           />
         </Box>
 
-        <Box>
+        <Box overflow='hidden'>
           <Box
             mb='2'
             as='p'
+            lineHeight='tight'
             isTruncated
             color='blue.500'
             fontWeight='bold'
@@ -64,11 +66,16 @@ function CardMusic({
           </Box>
           <Box
             as='p'
+            lineHeight='tight'
             isTruncated
             color='blue.700'
             fontWeight='normal'
             fontSize='15px'>
             {description}
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odio
+            exercitationem nam alias quasi officiis eaque. Explicabo itaque
+            facere atque suscipit, quo doloribus obcaecati sunt fugiat quos
+            error sint ad corrupti.
           </Box>
         </Box>
       </Flex>

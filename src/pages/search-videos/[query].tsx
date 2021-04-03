@@ -200,46 +200,11 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
           />
         ))}
       </SimpleGrid>
-      <Flex alignItems='center' mt='3' p='5' justifyContent='flex-end'>
-        {page === 1 ? (
-          <>
-            <Text>{page}</Text>
-            {data?.total_count > 0 && (
-              <Button
-                onClick={() => handleNext(page + 1)}
-                ml='2'
-                variant='outline'
-                size='sm'
-                colorScheme='blue'>
-                Next
-              </Button>
-            )}
-          </>
-        ) : (
-          <>
-            <Button
-              onClick={() => handleNext(page - 1)}
-              mr='2'
-              variant='outline'
-              size='sm'
-              colorScheme='blue'>
-              Previous
-            </Button>
-            <Text>{page}</Text>
-            {data?.total_count > 0 && (
-              <Button
-                onClick={() => handleNext(page + 1)}
-                ml='2'
-                variant='outline'
-                size='sm'
-                colorScheme='blue'>
-                Next
-              </Button>
-            )}
-          </>
-        )}
-      </Flex>
-      <Pagenation data={data} page={page} handleNext={handleNext} />
+      <Pagenation
+        data={data}
+        page={parseInt(pageProp)}
+        handleNext={handleNext}
+      />
     </Box>
   )
 }
