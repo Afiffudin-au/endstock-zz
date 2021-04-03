@@ -32,27 +32,12 @@ function Card({ description, image, id }: Required<CardOptions>) {
           transitionDuration='.3s'
           _hover={{ transform: 'scale(1.06)' }}>
           <Box display='block' overflow='hidden' paddingBottom='100%'>
-            <SkeletonTheme color='#cfd8dc' highlightColor='#eceff1'>
-              <Skeleton
-                style={{
-                  position: 'absolute',
-                  top: '0',
-                  right: '0',
-                  left: '0',
-                  bottom: '0',
-                }}
-                count={1}
-                height={'100%'}
-                width={'100%'}
-              />
-            </SkeletonTheme>
-
             <Image
               position='absolute'
               left='0'
               top='0'
-              height='100%'
-              width='100%'
+              bottom='0'
+              right='0'
               style={{ display: display }}
               objectFit='fill'
               borderTopLeftRadius='lg'
