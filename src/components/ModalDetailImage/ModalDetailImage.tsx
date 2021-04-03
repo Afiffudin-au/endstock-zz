@@ -48,12 +48,14 @@ function ModalDetailImage({
   } = useGetImageDetail()
   const [sizeImage, setSizeImage] = useState<string>('Preview')
   const [imageSizeError, setImageSizeError] = useState<boolean>(false)
+  const [preveiwImageUrl, setPreveiwImageUrl] = useState<string>('')
   const assets = dataImageDetail?.assets
   useEffect(() => {
     getImageDetail(id)
   }, [])
   useEffect(() => {
     if (dataImageDetail) {
+      setPreveiwImageUrl(dataImageDetail?.assets.preview.url)
       previewItems = []
       for (const key in assets) {
         const select: any = assets
@@ -75,6 +77,7 @@ function ModalDetailImage({
       }
     }
     setSizeImage(resolution)
+    setPreveiwImageUrl(url)
   }
   return (
     <Modal
@@ -94,8 +97,8 @@ function ModalDetailImage({
             <Flex>
               <Box mr='2'>
                 <Image
-                  src={dataImageDetail?.assets.preview.url}
-                  alt={`${dataImageDetail?.description} ${dataImageDetail?.assets.preview.url}`}
+                  src={preveiwImageUrl}
+                  alt={`${dataImageDetail?.description} ${preveiwImageUrl}`}
                 />
               </Box>
               <Box>
