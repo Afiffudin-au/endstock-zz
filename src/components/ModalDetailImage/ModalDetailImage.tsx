@@ -84,14 +84,14 @@ function ModalDetailImage({
   }
 
   const handleImageLoad = (e: any) => {
-    setDisplay('block')
     setImageLoad(true)
+    setDisplay('block')
   }
   return (
     <Modal
       scrollBehavior='inside'
       isCentered
-      size='6xl'
+      size={'full'}
       closeOnOverlayClick={false}
       isOpen={isOpen}
       onClose={onClose}>
@@ -105,8 +105,11 @@ function ModalDetailImage({
             <Flex>
               <Box mr='2'>
                 {!imageLoad && (
-                  <SkeletonTheme color='#cfd8dc' highlightColor='#eceff1'>
-                    <Skeleton count={1} style={{ paddingBottom: '100%' }} />
+                  <SkeletonTheme color='#8ad6f6' highlightColor='#eceff1'>
+                    <Skeleton
+                      count={1}
+                      style={{ width: '200px', height: '200px' }}
+                    />
                   </SkeletonTheme>
                 )}
                 <Image
