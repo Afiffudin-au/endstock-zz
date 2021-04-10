@@ -9,6 +9,10 @@ export default function Home() {
       <Head>
         <title>Create Next App</title>
         <link rel='icon' href='/favicon.ico' />
+        <meta
+          name='description'
+          content='Search millions of pictures, videos, music. Get high inspiration added every day.'
+        />
       </Head>
       <Box p='1'>
         <Search titleProps='Images' />

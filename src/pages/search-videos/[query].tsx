@@ -35,6 +35,7 @@ import RefreshButton from '../../components/RefreshButton/RefreshButton'
 import moment from 'moment'
 import SearchAlert from '../../components/SearchAlert/SearchAlert'
 import Pagenation from '../../components/Pagenation/Pagenation'
+import Head from 'next/head'
 interface DataVideoItems {
   id: string
   description: string
@@ -118,6 +119,12 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
   }
   return (
     <Box p={2}>
+      <Head>
+        <meta
+          name='description'
+          content='Search millions of pictures, videos, music. Get high inspiration added every day.'
+        />
+      </Head>
       <Search titleProps='Videos' />
       {data.data?.length === 0 && <SearchAlert />}
 

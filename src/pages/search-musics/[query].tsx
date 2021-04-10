@@ -15,6 +15,7 @@ import {
   MenuList,
 } from '@chakra-ui/react'
 import axios from 'axios'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { token } from '../../api-token/token'
@@ -115,6 +116,12 @@ function SearchMusic({ data, pageProp }: { data: any; pageProp: any }) {
   }
   return (
     <Box p='2'>
+      <Head>
+        <meta
+          name='description'
+          content='Search millions of pictures, videos, music. Get high inspiration added every day.'
+        />
+      </Head>
       <Search titleProps='Musics' />
       {data.data?.length === 0 && <SearchAlert />}
       <Flex alignItems='center' justifyContent='space-between'>
