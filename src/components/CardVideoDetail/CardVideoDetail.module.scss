@@ -1,0 +1,17 @@
+.CardVideoDetail {
+  overflow: hidden;
+  .playerWrapper {
+    position: relative;
+    padding-top: 56.25%;
+
+    .reactPlayer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      video {
+        outline: 0;
+        border: none;
+      }
+    }
+  }
+}
