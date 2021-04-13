@@ -15,7 +15,7 @@ export const useGetVideoDetail = () => {
       url: 'https://api.shutterstock.com/v2/videos',
       params: {
         id: videoId,
-        view : 'full'
+        view: 'full',
       },
     })
       .then((res) => {
@@ -28,9 +28,9 @@ export const useGetVideoDetail = () => {
         alert(err)
       })
   }
-  return{
+  return {
     videoDetail,
     loading,
-    getVideoDetail
+    getVideoDetail,
   }
 }

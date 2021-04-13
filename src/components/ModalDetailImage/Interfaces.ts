@@ -15,7 +15,7 @@ interface ThumbItems {
 export interface ImageDetailItems {
   id: string | number
   description: string
-  keywords :any
+  keywords: any
   assets: {
     huge_jpg: JpgItems
     huge_thumb: ThumbItems
