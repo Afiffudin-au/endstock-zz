@@ -14,6 +14,9 @@ function CardVideo({
   thumbnail,
   description,
 }: Required<CardVideoOptions>) {
+  const handleDetail = () => {
+    console.log('Hallo')
+  }
   return (
     <div className={styles.CardVideo}>
       <div className={styles.playerWrapper}>
@@ -26,7 +29,7 @@ function CardVideo({
           url={url}
         />
       </div>
-      <Box p={5}>
+      <Box p={5} onClick={handleDetail} cursor='pointer'>
         <Box
           mt='1'
           fontWeight='semibold'

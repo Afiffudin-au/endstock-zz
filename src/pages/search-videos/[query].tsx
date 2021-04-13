@@ -13,11 +13,6 @@ import {
   MenuItem,
   MenuList,
   Checkbox,
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  CloseButton,
 } from '@chakra-ui/react'
 import axios from 'axios'
 import { useRouter } from 'next/router'

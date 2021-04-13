@@ -3,10 +3,12 @@ import { useState } from 'react'
 import { token } from '../../api-token/token'
 
 export const useGetSearchImageSuggestion = () => {
-  const [loadingImageSuggestion, setLoadingImageSuggestion] = useState<boolean>(false)
+  const [loadingImageSuggestion, setLoadingImageSuggestion] = useState<boolean>(
+    false
+  )
   const [dataImageSuggestion, setDataImageSuggestion] = useState<any>([])
-  const getSearchImageSuggestion = (query:string) => {
-    if(query === '') return
+  const getSearchImageSuggestion = (query: string) => {
+    if (query === '') return
     setLoadingImageSuggestion(true)
     axios({
       method: 'get',
@@ -14,7 +16,7 @@ export const useGetSearchImageSuggestion = () => {
         Authorization: `Basic ${token}`,
       },
       url: 'https://api.shutterstock.com/v2/images/search/suggestions',
-      params: { query: query,limit : 10 },
+      params: { query: query, limit: 10 },
     })
       .then((res) => {
         setLoadingImageSuggestion(false)
@@ -27,6 +29,6 @@ export const useGetSearchImageSuggestion = () => {
   return {
     getSearchImageSuggestion,
     loadingImageSuggestion,
-    dataImageSuggestion
+    dataImageSuggestion,
   }
 }
