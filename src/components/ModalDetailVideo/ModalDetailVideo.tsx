@@ -74,11 +74,12 @@ function ModalDetailVideo({
           <ModalCloseButton />
           <ModalBody>
             <Box mb='2'>
-              <Stack direction='row'>
+              <Flex flexWrap='wrap'>
                 {selectVideoDetail?.keywords
                   ?.slice(0, 10)
                   ?.map((item: any, index: number) => (
                     <Box
+                      m='1'
                       cursor='pointer'
                       key={index}
                       onClick={() => handleSearchByKeyword(item)}>
@@ -96,7 +97,7 @@ function ModalDetailVideo({
                       </Tooltip>
                     </Box>
                   ))}
-              </Stack>
+              </Flex>
             </Box>
             {!loading && (
               <Flex alignItems='center' flexDirection='column'>

@@ -19,7 +19,10 @@ import {
   AlertIcon,
   AlertTitle,
   Fade,
+  Badge,
+  Tooltip,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import { useGetImageDetail } from '../../custom-hooks/useGetImageDetail/useGetImageDetail'
@@ -53,6 +56,7 @@ function ModalDetailImage({
   const [imageLoad, setImageLoad] = useState<boolean>(false)
   const [display, setDisplay] = useState<string>('none')
   const assets = dataImageDetail?.assets
+  const router = useRouter()
   useEffect(() => {
     getImageDetail(id)
   }, [])
@@ -87,6 +91,10 @@ function ModalDetailImage({
     setImageLoad(true)
     setDisplay('block')
   }
+  const handleSearchByKeyword = (keyword: string) => {
+    onClose()
+    router.push(`/search-images/${keyword}`)
+  }
   return (
     <Modal
       scrollBehavior='inside'
@@ -101,6 +109,32 @@ function ModalDetailImage({
         <ModalHeader>Image Detail</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
+          <Box mb='2'>
+            <Flex flexWrap='wrap'>
+              {dataImageDetail?.keywords
+                ?.slice(0, 10)
+                ?.map((item: any, index: number) => (
+                  <Box
+                    m='1'
+                    cursor='pointer'
+                    key={index}
+                    onClick={() => handleSearchByKeyword(item)}>
+                    <Tooltip
+                      hasArrow
+                      label={`Search For ${item}`}
+                      aria-label='A keyword for search'>
+                      <Badge
+                        fontWeight='normal'
+                        variant='solid'
+                        p='1'
+                        colorScheme='teal'>
+                        {item}
+                      </Badge>
+                    </Tooltip>
+                  </Box>
+                ))}
+            </Flex>
+          </Box>
           {!isLoading && (
             <Flex flexDirection={{ sm: 'column', md: 'row' }}>
               <Box mr='2'>
@@ -153,7 +187,7 @@ function ModalDetailImage({
                 </Box>
 
                 <Box as='p' fontSize='15px' color='blue.500'>
-                  {dataImageDetail.description}
+                  {dataImageDetail?.description}
                 </Box>
               </Box>
             </Flex>
