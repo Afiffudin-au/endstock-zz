@@ -1,7 +1,7 @@
 import { Button, IconButton } from '@chakra-ui/button'
 import { useDisclosure } from '@chakra-ui/hooks'
 import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons'
-import { Box, Flex, SimpleGrid, Text } from '@chakra-ui/layout'
+import { Box, Flex, SimpleGrid } from '@chakra-ui/layout'
 import {
   Drawer,
   DrawerOverlay,

@@ -15,10 +15,12 @@ export const useGetVideoDetail = () => {
       url: 'https://api.shutterstock.com/v2/videos',
       params: {
         id: videoId,
+        view : 'full'
       },
     })
       .then((res) => {
         setLoading(false)
+        console.log(res.data.data)
         setVideoDetail(res.data.data)
       })
       .catch((err) => {
