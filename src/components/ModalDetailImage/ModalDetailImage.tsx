@@ -102,7 +102,7 @@ function ModalDetailImage({
         <ModalCloseButton />
         <ModalBody pb={6}>
           {!isLoading && (
-            <Flex>
+            <Flex flexDirection={{ sm: 'column', md: 'row' }}>
               <Box mr='2'>
                 {!imageLoad && (
                   <SkeletonTheme color='#8ad6f6' highlightColor='#eceff1'>
@@ -120,42 +120,47 @@ function ModalDetailImage({
                 />
               </Box>
               <Box>
-                <Menu>
-                  <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                    {sizeImage}
-                  </MenuButton>
-                  <MenuList>
-                    {previewItems?.map((item: PreviewItems, index: number) => (
-                      <MenuItem
-                        onClick={() =>
-                          handleChangeUrlPreview(item.url, item.resolution)
-                        }
-                        key={index}>
-                        {item.resolution}
-                      </MenuItem>
-                    ))}
-                  </MenuList>
-                </Menu>
-                {imageSizeError && (
-                  <Fade in={imageSizeError}>
-                    <Alert mt='2' status='error' p='2'>
-                      <AlertIcon />
-                      <AlertTitle mr={2} fontWeight='normal' fontSize='15px'>
-                        Sorry,Image Size is not available.Please select other
-                        size
-                      </AlertTitle>
-                    </Alert>
-                  </Fade>
-                )}
+                <Box>
+                  <Menu>
+                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                      {sizeImage}
+                    </MenuButton>
+                    <MenuList>
+                      {previewItems?.map(
+                        (item: PreviewItems, index: number) => (
+                          <MenuItem
+                            onClick={() =>
+                              handleChangeUrlPreview(item.url, item.resolution)
+                            }
+                            key={index}>
+                            {item.resolution}
+                          </MenuItem>
+                        )
+                      )}
+                    </MenuList>
+                  </Menu>
+                  {imageSizeError && (
+                    <Fade in={imageSizeError}>
+                      <Alert mt='2' status='error' p='2'>
+                        <AlertIcon />
+                        <AlertTitle mr={2} fontWeight='normal' fontSize='15px'>
+                          Sorry,Image Size is not available.Please select other
+                          size
+                        </AlertTitle>
+                      </Alert>
+                    </Fade>
+                  )}
+                </Box>
+
+                <Box as='p' fontSize='15px' color='blue.500'>
+                  {dataImageDetail.description}
+                </Box>
               </Box>
             </Flex>
           )}
         </ModalBody>
 
         <ModalFooter>
-          <Button size='sm' colorScheme='blue' mr={3}>
-            Save
-          </Button>
           <Button size='sm' onClick={onClose}>
             Cancel
           </Button>
