@@ -1,6 +1,6 @@
 import { useDisclosure } from '@chakra-ui/hooks'
 import { Box } from '@chakra-ui/layout'
-import React from 'react'
+import React, { useState } from 'react'
 import ReactPlayer from 'react-player'
 import ModalDetailVideo from '../ModalDetailVideo/ModalDetailVideo'
 import styles from './CardVideo.module.scss'
@@ -15,8 +15,11 @@ function CardVideo({
   url,
   thumbnail,
   description,
-}: Required<CardVideoOptions>) {
+}: Partial<CardVideoOptions>) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const handleDetail = (open: boolean) => {
+    onOpen()
+  }
   return (
     <>
       <div className={styles.CardVideo}>
@@ -30,7 +33,7 @@ function CardVideo({
             url={url}
           />
         </div>
-        <Box p={5} onClick={onOpen} cursor='pointer'>
+        <Box p={5} onClick={() => handleDetail(true)} cursor='pointer'>
           <Box
             mt='1'
             fontWeight='semibold'

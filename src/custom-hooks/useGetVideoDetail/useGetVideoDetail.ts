@@ -19,7 +19,7 @@ export const useGetVideoDetail = () => {
     })
       .then((res) => {
         setLoading(false)
-        setVideoDetail(res.data)
+        setVideoDetail(res.data.data)
       })
       .catch((err) => {
         setLoading(false)
