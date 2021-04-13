@@ -2,21 +2,24 @@ import axios from 'axios'
 import { useState } from 'react'
 import { token } from '../../api-token/token'
 
-export const useGetImageDetail = () => {
+export const useGetMusicDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [dataImageDetail, setDataImageDetail] = useState<any>()
-  const getImageDetail = (id: Required<string | number>) => {
+  const [dataMusicDetail, setDataMusicDetail] = useState<any>([])
+  const getMusicDetail = (id: string | number) => {
     setIsLoading(true)
     axios({
       method: 'get',
       headers: {
         Authorization: `Basic ${token}`,
       },
-      url: `https://api.shutterstock.com/v2/images/${id}`,
+      url: 'https://api.shutterstock.com/v2/audio',
+      params: {
+        id: id,
+      },
     })
       .then((res) => {
         setIsLoading(false)
-        setDataImageDetail(res.data)
+        setDataMusicDetail(res.data.data[0])
       })
       .catch((err) => {
         setIsLoading(false)
@@ -24,8 +27,8 @@ export const useGetImageDetail = () => {
       })
   }
   return {
-    getImageDetail,
-    dataImageDetail,
     isLoading,
+    dataMusicDetail,
+    getMusicDetail,
   }
 }

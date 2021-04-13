@@ -117,7 +117,7 @@ function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
       <Head>
         <meta
           name='description'
-          content='Search millions of pictures, videos, music. Get high inspiration added every day.'
+          content='Search millions of pictures, videos, musics, audios. Get high inspiration added every day.'
         />
       </Head>
       <Search titleProps='Videos' />
