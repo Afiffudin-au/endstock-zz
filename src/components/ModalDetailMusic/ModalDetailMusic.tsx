@@ -11,7 +11,17 @@ import {
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useGetMusicDetail } from '../../custom-hooks/useGetMusicDetail/useGetMusicDetail'
-
+import { Link } from '@chakra-ui/react'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+interface DataMusicDetail {
+  title: string
+  description: string
+  assets: {
+    preview_mp3: {
+      url: string
+    }
+  }
+}
 function ModalDetailMusic({
   id,
   isOpen,
@@ -21,10 +31,19 @@ function ModalDetailMusic({
   isOpen: boolean
   onClose: () => void
 }) {
-  const { dataMusicDetail, getMusicDetail, isLoading } = useGetMusicDetail()
+  const {
+    dataMusicDetail,
+    getMusicDetail,
+    isLoading,
+  }: {
+    dataMusicDetail: DataMusicDetail
+    getMusicDetail: any
+    isLoading: boolean
+  } = useGetMusicDetail()
   useEffect(() => {
     getMusicDetail(id)
   }, [])
+  console.log(dataMusicDetail)
   return (
     <>
       <Modal
@@ -39,15 +58,17 @@ function ModalDetailMusic({
           {isLoading && (
             <Progress size='xs' isIndeterminate colorScheme='blue' />
           )}
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>{dataMusicDetail.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab rerum
-              mollitia molestias ipsa reiciendis error consequuntur fugit
-              aliquid repudiandae, nihil placeat obcaecati possimus temporibus
-              architecto nostrum assumenda tenetur exercitationem iste.
-            </p>
+            <p>{dataMusicDetail.description}</p>
+            <Link
+              textColor='blue.500'
+              fontSize='lg'
+              href={dataMusicDetail.assets.preview_mp3.url}
+              isExternal>
+              Preview <ExternalLinkIcon mx='2px' />
+            </Link>
           </ModalBody>
 
           <ModalFooter>
