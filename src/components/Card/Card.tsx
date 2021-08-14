@@ -32,6 +32,7 @@ function Card({ description, image, id }: Required<CardOptions>) {
           _hover={{ transform: 'scale(1.06)' }}>
           <Box display='block' overflow='hidden' paddingBottom='100%'>
             <Image
+              margin='auto'
               position='absolute'
               left='0'
               top='0'
