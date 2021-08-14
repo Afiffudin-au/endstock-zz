@@ -43,7 +43,6 @@ function ModalDetailMusic({
   useEffect(() => {
     getMusicDetail(id)
   }, [])
-  console.log(dataMusicDetail)
   return (
     <>
       <Modal
@@ -58,14 +57,14 @@ function ModalDetailMusic({
           {isLoading && (
             <Progress size='xs' isIndeterminate colorScheme='blue' />
           )}
-          <ModalHeader>{dataMusicDetail.title}</ModalHeader>
+          <ModalHeader>{dataMusicDetail?.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <p>{dataMusicDetail.description}</p>
+            <p>{dataMusicDetail?.description}</p>
             <Link
               textColor='blue.500'
               fontSize='lg'
-              href={dataMusicDetail.assets.preview_mp3.url}
+              href={dataMusicDetail?.assets?.preview_mp3?.url}
               isExternal>
               Preview <ExternalLinkIcon mx='2px' />
             </Link>
