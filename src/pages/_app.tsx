@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app'
 import '../styles/globals.scss'
 import { ChakraProvider, Progress } from '@chakra-ui/react'
-import '../styles/Suggestion.scss'
+import '../styles/Suggestion.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import '../styles/Suggestionboxshadow.css'
 // 1. Import the utilities
