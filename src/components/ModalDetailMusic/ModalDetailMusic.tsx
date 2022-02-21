@@ -10,7 +10,7 @@ import {
   Progress,
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
-import { useGetMusicDetail } from '../../custom-hooks/useGetMusicDetail/useGetMusicDetail'
+import useGetMusicDetail from '../../custom-hooks/useGetMusicDetail/useGetMusicDetail'
 import { Link } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 interface DataMusicDetail {

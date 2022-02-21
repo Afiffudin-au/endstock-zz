@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { token } from '../../api-token/token'
 
-export const useGetSearchImageSuggestion = () => {
+const useGetSearchImageSuggestion = () => {
   const [loadingImageSuggestion, setLoadingImageSuggestion] = useState<boolean>(
     false
   )
@@ -32,3 +32,4 @@ export const useGetSearchImageSuggestion = () => {
     dataImageSuggestion,
   }
 }
+export default useGetSearchImageSuggestion

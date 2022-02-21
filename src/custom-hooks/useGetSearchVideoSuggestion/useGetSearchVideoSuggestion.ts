@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { token } from '../../api-token/token'
 
-export const useGetSearchVideoSuggestion = () => {
+const useGetSearchVideoSuggestion = () => {
   const [loadingVideoSuggestion, setLoadingVideoSuggestion] = useState<boolean>(
     false
   )
@@ -34,3 +34,4 @@ export const useGetSearchVideoSuggestion = () => {
     loadingVideoSuggestion,
   }
 }
+export default useGetSearchVideoSuggestion

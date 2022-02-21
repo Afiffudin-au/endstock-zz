@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
-import { useGetVideoDetail } from '../../custom-hooks/useGetVideoDetail/useGetVideoDetail'
+import useGetVideoDetail from '../../custom-hooks/useGetVideoDetail/useGetVideoDetail'
 import CardVideoDetail from '../CardVideoDetail/CardVideoDetail'
 interface DetailVideoItems {
   id: string

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { token } from '../../api-token/token'
 
-export const useGetVideoDetail = () => {
+const useGetVideoDetail = () => {
   const [videoDetail, setVideoDetail] = useState<any>([])
   const [loading, setLoading] = useState<boolean>(false)
   const getVideoDetail = (videoId: string | number) => {
@@ -34,3 +34,4 @@ export const useGetVideoDetail = () => {
     getVideoDetail,
   }
 }
+export default useGetVideoDetail

@@ -25,7 +25,7 @@ import {
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import { useGetImageDetail } from '../../custom-hooks/useGetImageDetail/useGetImageDetail'
+import useGetImageDetail from '../../custom-hooks/useGetImageDetail/useGetImageDetail'
 import { ImageDetailItems } from './Interfaces'
 let previewItems: any = []
 interface PreviewItems {

@@ -3,8 +3,8 @@ import { Box, CircularProgress, IconButton, Input } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Autosuggest from 'react-autosuggest'
-import { useGetSearchImageSuggestion } from '../../custom-hooks/useGetSearchImageSuggestion/useGetSearchImageSuggestion'
-import { useGetSearchVideoSuggestion } from '../../custom-hooks/useGetSearchVideoSuggestion/useGetSearchVideoSuggestion'
+import useGetSearchImageSuggestion from '../../custom-hooks/useGetSearchImageSuggestion/useGetSearchImageSuggestion'
+import useGetSearchVideoSuggestion from '../../custom-hooks/useGetSearchVideoSuggestion/useGetSearchVideoSuggestion'
 const languages: any = []
 const getSuggestions = (value: string) => {
   const inputValue = value.trim().toLowerCase()
@@ -15,9 +15,9 @@ const getSuggestions = (value: string) => {
   return inputLength === 0
     ? []
     : languages.filter(
-        (lang: any) =>
-          lang.name.toLowerCase().slice(0, inputLength) === inputValue
-      )
+      (lang: any) =>
+        lang.name.toLowerCase().slice(0, inputLength) === inputValue
+    )
 }
 const getSuggestionValue = (suggestion: any) => suggestion.name
 const renderSuggestion = (suggestion: any) => <div>{suggestion.name}</div>

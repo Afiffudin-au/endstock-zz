@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { token } from '../../api-token/token'
 
-export const useGetImageDetail = () => {
+const useGetImageDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [dataImageDetail, setDataImageDetail] = useState<any>()
   const getImageDetail = (id: Required<string | number>) => {
@@ -29,3 +29,4 @@ export const useGetImageDetail = () => {
     isLoading,
   }
 }
+export default useGetImageDetail

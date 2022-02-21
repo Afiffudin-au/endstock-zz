@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { token } from '../../api-token/token'
 
-export const useGetMusicDetail = () => {
+const useGetMusicDetail = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [dataMusicDetail, setDataMusicDetail] = useState<any>([])
   const getMusicDetail = (id: string | number) => {
@@ -32,3 +32,4 @@ export const useGetMusicDetail = () => {
     getMusicDetail,
   }
 }
+export default useGetMusicDetail
