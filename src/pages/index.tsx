@@ -1,8 +1,7 @@
 import { Box } from '@chakra-ui/layout'
 import Head from 'next/head'
-import Search from '../components/Search/Search'
-import styles from '../styles/Home.module.scss'
-
+import Search from '../components/Search'
+import styles from '../styles/Home.module.css'
 export default function Home() {
   return (
     <div className={styles.container}>

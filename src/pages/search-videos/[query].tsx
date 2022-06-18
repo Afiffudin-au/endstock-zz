@@ -14,23 +14,22 @@ import {
   MenuList,
   Checkbox,
 } from '@chakra-ui/react'
-import axios from 'axios'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { token } from '../../api-token/token'
-import CardVideo, {
-  CardVideoOptions,
-} from '../../components/CardVideo/CardVideo'
-import DatePicker from '../../components/DatePicker/DatePicker'
-import FilterAction from '../../components/FilterAction/FilterAction'
-import PageFilter from '../../components/PageFilter/PageFilter'
-import Search from '../../components/Search/Search'
+import CardVideo, { CardVideoOptions } from '../../components/CardVideo'
+import DatePicker from '../../components/DatePicker'
+import FilterAction from '../../components/FilterAction'
+import PageFilter from '../../components/PageFilter'
+import Search from '../../components/Search'
 import { sortData } from '../../dataFilter/Video/dataFilter'
-import RefreshButton from '../../components/RefreshButton/RefreshButton'
+import RefreshButton from '../../components/RefreshButton'
 import moment from 'moment'
-import SearchAlert from '../../components/SearchAlert/SearchAlert'
-import Pagenation from '../../components/Pagenation/Pagenation'
+import SearchAlert from '../../components/SearchAlert'
+import Pagenation from '../../components/Pagenation'
 import Head from 'next/head'
+import { getSearchVideo } from '../../api-calls/server-side/video'
+import { SearchVideoConfig } from '../../data-types'
+import Error from 'next/error'
 interface DataVideoItems {
   id: string
   description: string
@@ -43,7 +42,18 @@ interface DataVideoItems {
     }
   }
 }
-function SearchVideo({ data, pageProp }: { data: any; pageProp: any }) {
+function SearchVideo({
+  data,
+  pageProp,
+  errorCode,
+}: {
+  data: any
+  pageProp: any
+  errorCode: number
+}) {
+  if (errorCode) {
+    return <Error statusCode={errorCode} />
+  }
   const [typeSort, setTypeSort] = useState<string>('popular')
   const [erorrPage, setErorrPage] = useState<boolean>(false)
   const [erorrPerPage, setErorrPerPage] = useState<boolean>(false)
@@ -228,41 +238,24 @@ function ChildComponent({
 const MemoizedChildComponent = React.memo(ChildComponent)
 export default SearchVideo
 export const getServerSideProps = async (context: any) => {
-  const query = context.params.query
-  const pageProp = context.query.page || 1
-  const sort = context.query.sort
-  const safeSearch = context.query.safeSearch
-  const perPage = context.query.perPage
-  const addedDate = context.query.addedDate
-  const params: any = {
-    query: query,
-    page: pageProp,
-    per_page: perPage,
-    sort: sort,
-    keyword_safe_search: safeSearch,
-    added_date: addedDate,
+  const params: Partial<SearchVideoConfig> = {
+    query: context.params.query,
+    page: context.query.page || 1,
+    per_page: context.query.perPage,
+    sort: context.query.sort,
+    keyword_safe_search: context.query.safeSearch,
+    added_date: context.query.addedDate,
   }
   if (params['added_date'] === 'Invalid date') {
     delete params['added_date']
   }
-  const data = await axios({
-    method: 'get',
-    headers: {
-      Authorization: `Basic ${token}`,
-    },
-    url: `https://api.shutterstock.com/v2/videos/search`,
-    params,
-  })
-    .then((res) => {
-      return res.data
-    })
-    .catch((err) => {
-      return err
-    })
+  const res = await getSearchVideo(params)
+  const errorCode = res.error ? res.statusCode : false
   return {
     props: {
-      data,
-      pageProp,
+      data: res.data,
+      pageProp: params.page,
+      errorCode,
     },
   }
 }

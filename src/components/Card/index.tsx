@@ -2,7 +2,7 @@ import { useDisclosure } from '@chakra-ui/hooks'
 import { Image } from '@chakra-ui/image'
 import { Box } from '@chakra-ui/layout'
 import React, { useState } from 'react'
-import ModalDetailImage from '../ModalDetailImage/ModalDetailImage'
+import ModalDetailImage from '../ModalDetailImage'
 export interface CardOptions {
   description: string
   image: string

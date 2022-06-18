@@ -25,8 +25,8 @@ import {
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import useGetImageDetail from '../../custom-hooks/useGetImageDetail/useGetImageDetail'
-import { ImageDetailItems } from './Interfaces'
+import useGetImageDetail from '../../custom-hooks/useGetImageDetail'
+import { ImageDetailItems } from '../../data-types'
 let previewItems: any = []
 interface PreviewItems {
   url: string
@@ -61,8 +61,9 @@ function ModalDetailImage({
     getImageDetail(id)
   }, [])
   useEffect(() => {
+    let mounted = true
     if (dataImageDetail) {
-      setPreveiwImageUrl(dataImageDetail?.assets.preview.url)
+      setPreveiwImageUrl(dataImageDetail.assets.preview.url)
       previewItems = []
       for (const key in assets) {
         const select: any = assets
@@ -71,6 +72,9 @@ function ModalDetailImage({
           url: select[key].url,
         })
       }
+    }
+    return () => {
+      mounted = false
     }
   }, [dataImageDetail])
   const handleChangeUrlPreview = (url: string, resolution: string) => {
@@ -111,7 +115,7 @@ function ModalDetailImage({
         <ModalBody pb={6}>
           <Box mb='2'>
             <Flex flexWrap='wrap'>
-              {dataImageDetail?.keywords
+              {dataImageDetail.keywords
                 ?.slice(0, 10)
                 ?.map((item: any, index: number) => (
                   <Box
@@ -150,7 +154,7 @@ function ModalDetailImage({
                   style={{ display: display }}
                   onLoad={handleImageLoad}
                   src={preveiwImageUrl}
-                  alt={`${dataImageDetail?.description} ${preveiwImageUrl}`}
+                  alt={`${dataImageDetail.description} ${preveiwImageUrl}`}
                 />
               </Box>
               <Box>
@@ -187,7 +191,7 @@ function ModalDetailImage({
                 </Box>
 
                 <Box as='p' fontSize='15px' color='blue.500'>
-                  {dataImageDetail?.description}
+                  {dataImageDetail.description}
                 </Box>
               </Box>
             </Flex>

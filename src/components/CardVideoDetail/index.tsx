@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
-import styles from './CardVideoDetail.module.scss'
+import styles from './CardVideoDetail.module.css'
 export interface CardVideoOptions {
   url: string
   thumbnail: string

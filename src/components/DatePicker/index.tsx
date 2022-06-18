@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDatePicker from 'react-datepicker'
-import styles from './DatePicker.module.scss'
+import styles from './DatePicker.module.css'
 function DatePicker({
   startDate,
   setStartDate,

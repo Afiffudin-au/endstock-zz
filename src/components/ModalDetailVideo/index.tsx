@@ -16,8 +16,8 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
-import useGetVideoDetail from '../../custom-hooks/useGetVideoDetail/useGetVideoDetail'
-import CardVideoDetail from '../CardVideoDetail/CardVideoDetail'
+import useGetVideoDetail from '../../custom-hooks/useGetVideoDetail'
+import CardVideoDetail from '../CardVideoDetail'
 interface DetailVideoItems {
   id: string
   description: string
@@ -53,7 +53,7 @@ function ModalDetailVideo({
   useEffect(() => {
     getVideoDetail(id)
   }, [])
-  const selectVideoDetail: DetailVideoItems = videoDetail[0]
+  const selectVideoDetail: DetailVideoItems = videoDetail
   const handleSearchByKeyword = (keyword: string) => {
     onClose()
     router.push(`/search-videos/${keyword}`)
@@ -75,7 +75,7 @@ function ModalDetailVideo({
           <ModalBody>
             <Box mb='2'>
               <Flex flexWrap='wrap'>
-                {selectVideoDetail?.keywords
+                {selectVideoDetail.keywords
                   ?.slice(0, 10)
                   ?.map((item: any, index: number) => (
                     <Box
@@ -103,12 +103,12 @@ function ModalDetailVideo({
               <Flex alignItems='center' flexDirection='column'>
                 <Box w={{ sm: '100%', md: '2xl' }} mb='2'>
                   <CardVideoDetail
-                    thumbnail={selectVideoDetail?.assets.preview_jpg.url}
-                    url={selectVideoDetail?.assets.preview_webm.url}
+                    thumbnail={selectVideoDetail.assets.preview_jpg.url}
+                    url={selectVideoDetail.assets.preview_webm.url}
                   />
                 </Box>
                 <Box as='p' fontSize='15px' color='blue.500'>
-                  {selectVideoDetail?.description}
+                  {selectVideoDetail.description}
                 </Box>
               </Flex>
             )}

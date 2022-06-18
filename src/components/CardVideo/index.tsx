@@ -1,9 +1,9 @@
 import { useDisclosure } from '@chakra-ui/hooks'
 import { Box } from '@chakra-ui/layout'
-import React, { useState } from 'react'
+import React from 'react'
 import ReactPlayer from 'react-player'
-import ModalDetailVideo from '../ModalDetailVideo/ModalDetailVideo'
-import styles from './CardVideo.module.scss'
+import ModalDetailVideo from '../ModalDetailVideo'
+import styles from './CardVideo.module.css'
 export interface CardVideoOptions {
   id: string | number
   url: string

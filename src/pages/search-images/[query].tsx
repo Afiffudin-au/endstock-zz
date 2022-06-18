@@ -10,33 +10,32 @@ import {
   Box,
   SimpleGrid,
   IconButton,
-  Text,
   Flex,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Checkbox,
-  Input,
 } from '@chakra-ui/react'
-import axios from 'axios'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { token } from '../../api-token/token'
-import Card, { CardOptions } from '../../components/Card/Card'
-import Search from '../../components/Search/Search'
+import Card, { CardOptions } from '../../components/Card'
+import Search from '../../components/Search'
 import {
   imageType,
   sortData,
   peopleAges,
 } from '../../dataFilter/Image/dataFilter'
-import DatePicker from '../../components/DatePicker/DatePicker'
-import FilterAction from '../../components/FilterAction/FilterAction'
-import PageFilter from '../../components/PageFilter/PageFilter'
-import RefreshButton from '../../components/RefreshButton/RefreshButton'
-import SearchAlert from '../../components/SearchAlert/SearchAlert'
-import Pagenation from '../../components/Pagenation/Pagenation'
+import DatePicker from '../../components/DatePicker'
+import FilterAction from '../../components/FilterAction'
+import PageFilter from '../../components/PageFilter'
+import RefreshButton from '../../components/RefreshButton'
+import SearchAlert from '../../components/SearchAlert'
+import Pagenation from '../../components/Pagenation'
 import Head from 'next/head'
+import { getSearchImage } from '../../api-calls/server-side/image'
+import { SearchImageConfig } from '../../data-types'
+import Error from 'next/error'
 interface DataItems {
   description: string
   id: number | string
@@ -49,7 +48,18 @@ interface DataItems {
   }
 }
 
-function SearchImage({ data, pageProp }: { data: any; pageProp: any }) {
+function SearchImage({
+  data,
+  pageProp,
+  errorCode,
+}: {
+  data: any
+  pageProp: any
+  errorCode: number
+}) {
+  if (errorCode) {
+    return <Error statusCode={errorCode} />
+  }
   const [typeSort, setTypeSort] = useState<string>('popular')
   const [typeImage, setTypeImage] = useState<string>('photo')
   const [peopleAge, setPeopleAge] = useState<string>('teenagers')
@@ -255,40 +265,22 @@ const MemoizedChildComponent = React.memo(ChildComponent)
 
 export default SearchImage
 export const getServerSideProps = async (context: any) => {
-  const query = context.params.query
-  const pageProp = context.query.page || 1
-  const sort = context.query.sort || 'popular'
-  const typeImage = context.query.typeImage
-  const safeSearch = context.query.safeSearch
-  const perPage = context.query.perPage
-  const peopleAge = context.query.peopleAge
-  const data = await axios({
-    method: 'get',
-    headers: {
-      Authorization: `Basic ${token}`,
-    },
-    url: `https://api.shutterstock.com/v2/images/search`,
-    params: {
-      query: query,
-      page: pageProp,
-      sort: sort,
-      safe: safeSearch,
-      per_page: perPage,
-      image_type: typeImage,
-      people_age: peopleAge,
-    },
-  })
-    .then((res) => {
-      return res.data
-    })
-    .catch((err) => {
-      return err
-    })
-
+  const params: Partial<SearchImageConfig> = {
+    query: context.params.query,
+    page: context.query.page || 1,
+    sort: context.query.sort || 'popular',
+    safe: context.query.safeSearch,
+    per_page: context.query.perPage,
+    image_type: context.query.typeImage,
+    people_age: context.query.peopleAge,
+  }
+  const res = await getSearchImage(params)
+  const errorCode = res.error ? res.statusCode : false
   return {
     props: {
-      data,
-      pageProp,
+      data: res.data,
+      pageProp: params.page,
+      errorCode,
     },
   }
 }

@@ -3,7 +3,7 @@ import { Image } from '@chakra-ui/image'
 import { Box, Flex } from '@chakra-ui/layout'
 import React, { useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
-import ModalDetailMusic from '../ModalDetailMusic/ModalDetailMusic'
+import ModalDetailMusic from '../ModalDetailMusic'
 export interface CardMusicOptions {
   title: string
   description: string

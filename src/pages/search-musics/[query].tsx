@@ -14,20 +14,19 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import axios from 'axios'
+import Error from 'next/error'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { token } from '../../api-token/token'
-import CardMusic, {
-  CardMusicOptions,
-} from '../../components/CardMusic/CardMusic'
-import FilterAction from '../../components/FilterAction/FilterAction'
-import PageFilter from '../../components/PageFilter/PageFilter'
-import Pagenation from '../../components/Pagenation/Pagenation'
-import RefreshButton from '../../components/RefreshButton/RefreshButton'
-import Search from '../../components/Search/Search'
-import SearchAlert from '../../components/SearchAlert/SearchAlert'
+import { getSearchMusic } from '../../api-calls/server-side/music'
+import { SearchMusicConfig } from '../../data-types'
+import CardMusic, { CardMusicOptions } from '../../components/CardMusic'
+import FilterAction from '../../components/FilterAction'
+import PageFilter from '../../components/PageFilter'
+import Pagenation from '../../components/Pagenation'
+import RefreshButton from '../../components/RefreshButton'
+import Search from '../../components/Search'
+import SearchAlert from '../../components/SearchAlert'
 import { sortTypes, sortOrderTypes } from '../../dataFilter/Music/dataFilter'
 interface DataMusicItems {
   id: string
@@ -47,7 +46,18 @@ interface DataMusicItems {
     }
   }
 }
-function SearchMusic({ data, pageProp }: { data: any; pageProp: any }) {
+function SearchMusic({
+  data,
+  pageProp,
+  errorCode,
+}: {
+  data: any
+  pageProp: any
+  errorCode: number
+}) {
+  if (errorCode) {
+    return <Error statusCode={errorCode} />
+  }
   const [sortType, setSortType] = useState<string>('sort')
   const [sortOrderType, setSortOrderType] = useState<string>('desc')
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -237,36 +247,20 @@ function ChildComponent({
 const MemoizedChildComponent = React.memo(ChildComponent)
 export default SearchMusic
 export const getServerSideProps = async (context: any) => {
-  const query = context.params.query
-  const pageProp = context.query.page || 1
-  const perPage = context.query.perPage
-  const sortType = context.query.sortType
-  const sortOrderType = context.query.sortOrderType
-  const params = {
-    query: query,
-    page: pageProp,
-    per_page: perPage,
-    sort: sortType,
-    sort_order: sortOrderType,
+  const params: Partial<SearchMusicConfig> = {
+    query: context.params.query,
+    page: context.query.page || 1,
+    per_page: context.query.perPage,
+    sort: context.query.sortType,
+    sort_order: context.query.sortOrderType,
   }
-  const data = await axios({
-    method: 'get',
-    headers: {
-      Authorization: `Basic ${token}`,
-    },
-    url: `https://api.shutterstock.com/v2/audio/search`,
-    params,
-  })
-    .then((res) => {
-      return res.data
-    })
-    .catch((err) => {
-      return err
-    })
+  const res = await getSearchMusic(params)
+  const errorCode = res.error ? res.statusCode : false
   return {
     props: {
-      data,
-      pageProp,
+      data: res.data,
+      pageProp: params.page,
+      errorCode,
     },
   }
 }

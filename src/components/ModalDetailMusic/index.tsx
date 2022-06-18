@@ -10,7 +10,7 @@ import {
   Progress,
 } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
-import useGetMusicDetail from '../../custom-hooks/useGetMusicDetail/useGetMusicDetail'
+import useGetMusicDetail from '../../custom-hooks/useGetMusicDetail'
 import { Link } from '@chakra-ui/react'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 interface DataMusicDetail {
@@ -57,14 +57,14 @@ function ModalDetailMusic({
           {isLoading && (
             <Progress size='xs' isIndeterminate colorScheme='blue' />
           )}
-          <ModalHeader>{dataMusicDetail?.title}</ModalHeader>
+          <ModalHeader>{dataMusicDetail.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <p>{dataMusicDetail?.description}</p>
+            <p>{dataMusicDetail.description}</p>
             <Link
               textColor='blue.500'
               fontSize='lg'
-              href={dataMusicDetail?.assets?.preview_mp3?.url}
+              href={dataMusicDetail.assets.preview_mp3.url}
               isExternal>
               Preview <ExternalLinkIcon mx='2px' />
             </Link>

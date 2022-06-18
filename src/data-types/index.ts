@@ -1,3 +1,27 @@
+export interface SearchVideoConfig {
+  query: string
+  page: number
+  per_page: number
+  sort: string
+  keyword_safe_search: boolean
+  added_date: string
+}
+export interface SearchImageConfig {
+  query: string
+  page: number
+  sort: string
+  safe: boolean
+  per_page: number
+  image_type: string
+  people_age: string
+}
+export interface SearchMusicConfig {
+  query: string
+  page: number
+  per_page: number
+  sort: string
+  sort_order: string
+}
 interface JpgItems {
   display_name: string
   dpi: number
