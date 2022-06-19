@@ -4,7 +4,6 @@ interface AxiosRequestConfigCustom extends AxiosRequestConfig{
   controller? : any
 }
 const callAPI = async ({ url, method, data, controller }:AxiosRequestConfigCustom)=>{
-  console.log(controller)
   const res = await axios({
     method: method,
     url: url,
