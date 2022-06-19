@@ -1,10 +1,14 @@
-import { api_config } from './../../api-config/index';
 import { useState } from 'react'
-import { headers_auth_client } from '../../api-config'
+import { getSuggestionAPI } from '../../api-calls/client-side/suggestion'
 const useSuggestion = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [keywords, setKeywords] = useState([])
-  const getSuggest = (controller:any, query:string, userText:string) => {
+  const getSuggest = async (
+    controller: any,
+    query: string,
+    userText: string,
+    type: 'images' | 'videos'
+  ) => {
     if (userText === '') {
       setKeywords([])
       return
@@ -13,35 +17,22 @@ const useSuggestion = () => {
       setKeywords([])
     }
     setIsLoading(true)
-    fetch(
-      `${api_config.BASE_URL}/${api_config.API_VERSION}/images/search/suggestions?query=${query}`,
-      {
-        signal: controller.signal,
-        method: 'GET',
-        headers: headers_auth_client
-      }
-    )
-      .then((res:any) => {
-        if (!res.ok) {
-          throw new Error(res.status)
-        } else {
-          return res.json()
-        }
-      })
-      .then((data) => {
-        setIsLoading(false)
-        const unique:any = [...new Set(data.data)]
-        setKeywords(unique)
-      })
-      .catch((err) => {
-        setIsLoading(false)
-        console.error('Error', err)
-      })
+    const res = await getSuggestionAPI(query, controller,type)
+    if (res.error) {
+      setIsLoading(false)
+      // alert(res.message)
+    } else {
+      setIsLoading(false)
+      const unique: any = [...new Set(res.data.data)]
+      setKeywords(unique)
+    }
   }
+  const reset = () => setKeywords([])
   return {
     isLoading,
     keywords,
     getSuggest,
+    reset
   }
 }
 export default useSuggestion

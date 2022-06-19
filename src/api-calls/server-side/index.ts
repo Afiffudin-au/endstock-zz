@@ -8,6 +8,14 @@ const callAPI = async ({ url, method, data, params }:AxiosRequestConfig)=>{
     headers : header_auth_server,
     params : params
   }).catch((err) => err.response)
+  if(res === undefined || res.data === undefined){
+    return {
+      error : true,
+      message: `Unknown Error`,
+      data : null,
+      statusCode : 500
+    }
+  }
   if(res.status === 404){
     return {
       error : true,
@@ -26,9 +34,9 @@ const callAPI = async ({ url, method, data, params }:AxiosRequestConfig)=>{
   }
   const successRes = {
     error: false,
-    message: res.data.message || 'Success',
+    message: 'Success',
     data: res.data,
-    statusCode :  res.status
+    statusCode : res.status
   }
   return successRes
 }

@@ -7,15 +7,13 @@ import {
   MenuList,
   MenuItem,
   Button,
-  Progress,
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { MdPhotoCamera } from 'react-icons/md/index'
 import { BsMusicNoteBeamed, BsFillCameraVideoFill } from 'react-icons/bs/index'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import styles from './Search.module.css'
-import useSuggestion from '../../custom-hooks/useSuggestion'
+import AutoSuggest from '../AutoSuggest'
 function Search({
   titleProps,
 }: {
@@ -23,8 +21,7 @@ function Search({
 }) {
   const [title, setTitle] = useState(titleProps)
   const router = useRouter()
-  const { getSuggest, isLoading, keywords } = useSuggestion()
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState<any>('')
   const handleSearch = (e: any) => {
     e.preventDefault()
     const userText = searchQuery.replace(/^\s+/, '').replace(/\s+$/, '')
@@ -33,22 +30,12 @@ function Search({
     }
     if (title === 'Images') {
       router.push(`/search-images/${searchQuery}`)
-    }
-    if (title === 'Videos') {
+    } else if (title === 'Videos') {
       router.push(`/search-videos/${searchQuery}`)
-    }
-    if (title === 'Musics') {
+    } else if (title === 'Musics') {
       router.push(`/search-musics/${searchQuery}`)
     }
   }
-  useEffect(() => {
-    const userText = searchQuery?.replace(/^\s+/, '').replace(/\s+$/, '')
-    let controller = new AbortController()
-    getSuggest(controller, searchQuery, userText)
-    return () => {
-      controller.abort()
-    }
-  }, [searchQuery])
   return (
     <Box
       borderWidth='1px'
@@ -87,7 +74,7 @@ function Search({
             </MenuList>
           </Menu>
         </Box>
-        <Box width='100%'>
+        <Box width='100%' height={'40px'} position={'relative'}>
           <form className={styles.formSearch}>
             <input
               className={styles.formSearchInput}
@@ -102,28 +89,7 @@ function Search({
               </span>
             </button>
           </form>
-          {isLoading && <Progress size='xs' isIndeterminate />}
-          {keywords?.length > 0 && (
-            <article className={styles.suggest}>
-              {keywords?.slice(0, 10).map((item) => (
-                <Link
-                  key={item}
-                  href={
-                    title === 'Images'
-                      ? `/search-images/${item}`
-                      : title === 'Videos'
-                      ? `/search-videos/${item}`
-                      : title === 'Musics'
-                      ? `/search-musics/${item}`
-                      : ''
-                  }>
-                  <a>
-                    <p className={styles.suggestItem}>{item}</p>
-                  </a>
-                </Link>
-              ))}
-            </article>
-          )}
+          <AutoSuggest searchQuery={searchQuery} title={title} />
         </Box>
       </Flex>
     </Box>

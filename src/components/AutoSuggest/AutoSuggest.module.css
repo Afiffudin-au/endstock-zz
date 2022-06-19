@@ -1,0 +1,28 @@
+.suggest {
+  font-size: 18px;
+  z-index: 10;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  left: 0;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.suggestItem {
+  cursor: pointer;
+  padding: 5px;
+}
+.suggestItem:hover {
+  background: rgb(234, 234, 234);
+  border-radius: 5px;
+}
+@media (max-width : 576px){
+  .suggest{
+    font-size: 17px;
+    padding: 8px;
+  }
+}
