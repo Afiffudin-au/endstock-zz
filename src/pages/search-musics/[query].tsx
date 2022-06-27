@@ -23,7 +23,7 @@ import { SearchMusicConfig } from '../../data-types'
 import CardMusic, { CardMusicOptions } from '../../components/CardMusic'
 import FilterAction from '../../components/FilterAction'
 import PageFilter from '../../components/PageFilter'
-import Pagenation from '../../components/Pagenation'
+import Pagination from '../../components/Pagination'
 import RefreshButton from '../../components/RefreshButton'
 import Search from '../../components/Search'
 import SearchAlert from '../../components/SearchAlert'
@@ -221,7 +221,7 @@ function SearchMusic({
           id={item.id}
         />
       ))}
-      <Pagenation
+      <Pagination
         data={data}
         page={parseInt(pageProp)}
         handleNext={handleNext}

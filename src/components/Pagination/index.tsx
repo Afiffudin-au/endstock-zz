@@ -1,12 +1,12 @@
 import { Flex, Text } from '@chakra-ui/layout'
 import { Button } from '@chakra-ui/react'
 import React from 'react'
-interface PagenationOptions {
+interface PaginationOptions {
   page: number
   data: any
   handleNext: any
 }
-function Pagenation({ page, data, handleNext }: Required<PagenationOptions>) {
+function Pagination({ page, data, handleNext }: Required<PaginationOptions>) {
   return (
     <Flex alignItems='center' mt='3' p='5' justifyContent='flex-end'>
       {page === 1 ? (
@@ -50,4 +50,4 @@ function Pagenation({ page, data, handleNext }: Required<PagenationOptions>) {
   )
 }
 
-export default Pagenation
+export default Pagination

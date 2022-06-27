@@ -25,7 +25,7 @@ import { sortData } from '../../dataFilter/Video/dataFilter'
 import RefreshButton from '../../components/RefreshButton'
 import moment from 'moment'
 import SearchAlert from '../../components/SearchAlert'
-import Pagenation from '../../components/Pagenation'
+import Pagination from '../../components/Pagination'
 import Head from 'next/head'
 import { getSearchVideo } from '../../api-calls/server-side/video'
 import { SearchVideoConfig } from '../../data-types'
@@ -212,7 +212,7 @@ function SearchVideo({
           />
         ))}
       </SimpleGrid>
-      <Pagenation
+      <Pagination
         data={data}
         page={parseInt(pageProp)}
         handleNext={handleNext}

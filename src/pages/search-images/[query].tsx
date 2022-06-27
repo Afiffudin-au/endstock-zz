@@ -31,7 +31,7 @@ import FilterAction from '../../components/FilterAction'
 import PageFilter from '../../components/PageFilter'
 import RefreshButton from '../../components/RefreshButton'
 import SearchAlert from '../../components/SearchAlert'
-import Pagenation from '../../components/Pagenation'
+import Pagination from '../../components/Pagination'
 import Head from 'next/head'
 import { getSearchImage } from '../../api-calls/server-side/image'
 import { SearchImageConfig } from '../../data-types'
@@ -250,7 +250,7 @@ function SearchImage({
           />
         ))}
       </SimpleGrid>
-      <Pagenation
+      <Pagination
         data={data}
         page={parseInt(pageProp)}
         handleNext={handleNext}
